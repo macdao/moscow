@@ -16,22 +16,22 @@
     }
   },
   {
-    "description": "request_file_should_response_text_bar",
+    "description": "request_file_should_response_text_bar2",
     "request": {
       "method": "POST",
       "file": "foo.request"
     },
     "response": {
-      "text": "bar"
+      "text": "bar2"
     }
   },
   {
-    "description": "request_uri_foo_should_response_bar",
+    "description": "request_uri_foo_should_response_bar3",
     "request": {
       "uri": "/foo"
     },
     "response": {
-      "text": "bar"
+      "text": "bar3"
     }
   }
 ]
