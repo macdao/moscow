@@ -11,7 +11,7 @@ import static org.junit.Assert.assertThat;
 public class ContractContainerTest {
     @Test
     public void should_find_correct_contracts() throws Exception {
-        final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources"));
+        final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
 
         final List<Contract> contracts = contractContainer.findContracts("should_response_foo");
         assertThat(contracts.size(), is(1));
