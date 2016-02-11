@@ -80,12 +80,12 @@ public class ContractAssertionTest {
 
     @Test
     public void request_text_bar_should_response_201() throws Exception {
-        final String result = new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+        final String barId = new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract()
                 .get("bar-id");
 
-        assertThat(result, is("bar-id-1"));
+        assertThat(barId, is("bar-id-1"));
     }
 
     @Test
