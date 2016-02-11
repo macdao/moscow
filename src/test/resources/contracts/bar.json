@@ -1,5 +1,19 @@
 [
   {
+    "description": "# not_a_contract",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar"
+    },
+    "response": {
+      "status": 201,
+      "headers": {
+        "Location": "http://localhost:12306/bar/bar-id-1"
+      }
+    }
+  },
+  {
     "description": "request_text_bar_should_response_201",
     "request": {
       "method": "POST",
@@ -7,7 +21,23 @@
       "text": "bar"
     },
     "response": {
-      "status": 201
+      "status": 201,
+      "headers": {
+        "Location": "http://localhost:{port}/bar/{bar-id}"
+      }
+    }
+  },
+  {
+    "description": "request_text_bar2_should_response_headers",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar2"
+    },
+    "response": {
+      "headers": {
+        "content-type": "application/json"
+      }
     }
   }
 ]

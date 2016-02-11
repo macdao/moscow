@@ -6,6 +6,9 @@ import org.junit.rules.TestName;
 
 import java.nio.file.Paths;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class ContractAssertionTest {
     private final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
 
@@ -77,6 +80,16 @@ public class ContractAssertionTest {
 
     @Test
     public void request_text_bar_should_response_201() throws Exception {
+        final String result = new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setPort(12306)
+                .assertContract()
+                .get("bar-id");
+
+        assertThat(result, is("bar-id-1"));
+    }
+
+    @Test
+    public void request_text_bar2_should_response_headers() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
