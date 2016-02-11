@@ -4,5 +4,8 @@
   },
   {
     "include": "foo.json"
+  },
+  {
+    "include": "bar.json"
   }
 ]
