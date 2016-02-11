@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ContractAssertionTest {
-    private final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
+    private static final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
 
     @Rule
     public final TestName name = new TestName();
