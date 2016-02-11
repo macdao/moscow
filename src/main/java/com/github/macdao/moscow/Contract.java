@@ -32,11 +32,11 @@ public class Contract {
         this.response = response;
     }
 
-    public void setBase(Path base) {
-        this.base = base;
-    }
-
     public Path getBase() {
         return base;
+    }
+
+    public void setBase(Path base) {
+        this.base = base;
     }
 }

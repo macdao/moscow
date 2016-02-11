@@ -19,12 +19,12 @@ public class ContractResponse {
         this.status = status;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Map<String, String> getHeaders() {

@@ -43,6 +43,7 @@ public class ContractAssertion {
     private String host = "localhost";
     private int port = 8080;
     private boolean necessity = false;
+    private int executionTimeout = 0;
 
     public ContractAssertion(List<Contract> contracts) {
         Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
@@ -61,6 +62,11 @@ public class ContractAssertion {
 
     public ContractAssertion necessity() {
         necessity = true;
+        return this;
+    }
+
+    public ContractAssertion setExecutionTimeout(int executionTimeout) {
+        this.executionTimeout = executionTimeout;
         return this;
     }
 
@@ -135,8 +141,18 @@ public class ContractAssertion {
         for (Map.Entry<String, String> query : contractRequest.getQueries().entrySet()) {
             builder.queryParam(query.getKey(), query.getValue());
         }
+        final long start = System.currentTimeMillis();
 
         final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<>(body(contract), headers(contractRequest)), String.class);
+        final long spent = System.currentTimeMillis() - start;
+
+        final String description = contract.getDescription();
+        logger.info("Contract `{}` spent {}ms", description, spent);
+
+        if (executionTimeout > 0 && spent > executionTimeout) {
+            throw new RuntimeException(format("Contract `%s` spent %dms", description, spent));
+        }
+
         return responseEntity;
     }
 

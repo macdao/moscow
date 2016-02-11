@@ -79,5 +79,19 @@
         "foo": "bar"
       }
     }
+  },
+  {
+    "description": "request_text_bar5_should_response_timeout",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar5"
+    },
+    "response": {
+      "latency": {
+        "duration": 1,
+        "unit": "second"
+      }
+    }
   }
 ]
