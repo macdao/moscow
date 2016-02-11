@@ -1,6 +1,7 @@
 package com.github.macdao.moscow;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.TestRestTemplate;
@@ -25,6 +26,7 @@ public class ContractAssertion {
     private int port = 8080;
 
     public ContractAssertion(List<Contract> contracts) {
+        Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
         this.contracts = contracts;
     }
 
