@@ -6,6 +6,7 @@ public class ContractRequest {
     private String uri = "/";
     private HttpMethod method = HttpMethod.GET;
     private String text;
+    private String file;
 
     public String getUri() {
         return uri;
@@ -29,5 +30,13 @@ public class ContractRequest {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 }

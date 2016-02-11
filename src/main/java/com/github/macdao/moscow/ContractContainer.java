@@ -32,23 +32,24 @@ public class ContractContainer {
         return contractMap.get(description);
     }
 
-    private void loadContracts(Path path) throws IOException {
+    private void loadContracts(final Path path) throws IOException {
         Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                loadContractsFromFile(file);
+                loadContractsFromFile(file, path);
                 return super.visitFile(file, attrs);
             }
         });
     }
 
-    private void loadContractsFromFile(Path file) throws IOException {
+    private void loadContractsFromFile(Path file, Path base) throws IOException {
         if (file.getFileName().toString().endsWith(".json")) {
             final List<Contract> contracts = objectMapper.readValue(file.toFile(), new TypeReference<List<Contract>>() {
             });
             for (Contract contract : contracts) {
                 final String description = contract.getDescription();
                 if (description != null) {
+                    contract.setBase(base);
                     contractMap.put(description, contract);
                 }
             }

@@ -14,5 +14,15 @@
     "response": {
       "text": "bar"
     }
+  },
+  {
+    "description": "request_foo_file_should_response_file",
+    "request": {
+      "method": "POST",
+      "file": "foo.request"
+    },
+    "response": {
+      "text": "file"
+    }
   }
 ]

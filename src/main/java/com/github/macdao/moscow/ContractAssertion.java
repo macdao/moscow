@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.core.io.PathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -71,8 +72,16 @@ public class ContractAssertion {
         final String uri = format("http://%s:%d%s", host, port, decode(contractRequest.getUri()));
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
 
-        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<Object>(contractRequest.getText(), null), String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<>(getBody(contract), null), String.class);
         return responseEntity;
+    }
+
+    private Object getBody(Contract contract) {
+        final ContractRequest contractRequest = contract.getRequest();
+        if (contractRequest.getFile() != null) {
+            return new PathResource(contract.getBase().resolve(contractRequest.getFile()));
+        }
+        return contractRequest.getText();
     }
 
     private String decode(String uri) {

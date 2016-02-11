@@ -32,4 +32,11 @@ public class ContractAssertionTest {
                 .setPort(12306)
                 .assertContract();
     }
+
+    @Test
+    public void request_foo_file_should_response_file() throws Exception {
+        new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setPort(12306)
+                .assertContract();
+    }
 }
