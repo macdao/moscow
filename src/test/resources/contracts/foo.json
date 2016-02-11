@@ -1,6 +1,6 @@
 [
   {
-    "description": "request_param_should_response_bar4",
+    "description": "request_param_should_response_text_bar4",
     "request": {
       "uri": "/foo",
       "queries": {
@@ -12,7 +12,7 @@
     }
   },
   {
-    "description": "request_json_should_response_bar",
+    "description": "request_json_should_response_text_bar",
     "request": {
       "method": "POST",
       "uri": "/foo",
@@ -25,7 +25,7 @@
     }
   },
   {
-    "description": "request_uri_foo_should_response_bar3",
+    "description": "request_uri_foo_should_response_text_bar3",
     "request": {
       "uri": "/foo"
     },

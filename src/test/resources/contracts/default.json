@@ -1,6 +1,6 @@
 [
   {
-    "description": "request_put_foo2_should_response_bar3",
+    "description": "request_put_foo2_should_response_text_bar3",
     "request": {
       "method": "PUT",
       "text": "foo2"
@@ -10,7 +10,7 @@
     }
   },
   {
-    "description": "request_json_should_response_bar4",
+    "description": "request_json_should_response_text_bar4",
     "request": {
       "method": "POST",
       "headers": {

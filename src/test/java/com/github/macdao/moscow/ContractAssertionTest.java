@@ -41,35 +41,35 @@ public class ContractAssertionTest {
     }
 
     @Test
-    public void request_uri_foo_should_response_bar3() throws Exception {
+    public void request_uri_foo_should_response_text_bar3() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
     }
 
     @Test
-    public void request_param_should_response_bar4() throws Exception {
+    public void request_param_should_response_text_bar4() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
     }
 
     @Test
-    public void request_put_foo2_should_response_bar3() throws Exception {
+    public void request_put_foo2_should_response_text_bar3() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
     }
 
     @Test
-    public void request_json_should_response_bar4() throws Exception {
+    public void request_json_should_response_text_bar4() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
     }
 
     @Test
-    public void request_json_should_response_bar() throws Exception {
+    public void request_json_should_response_text_bar() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
