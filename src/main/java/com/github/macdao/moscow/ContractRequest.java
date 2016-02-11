@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 public class ContractRequest {
     private String uri = "/";
     private HttpMethod method = HttpMethod.GET;
+    private String text;
 
     public String getUri() {
         return uri;
@@ -20,5 +21,13 @@ public class ContractRequest {
 
     public void setMethod(HttpMethod method) {
         this.method = method;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

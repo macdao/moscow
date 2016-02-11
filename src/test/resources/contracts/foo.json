@@ -4,5 +4,15 @@
     "response": {
       "text": "foo"
     }
+  },
+  {
+    "description": "request_foo_should_response_bar",
+    "request": {
+      "method": "POST",
+      "text": "foo"
+    },
+    "response": {
+      "text": "bar"
+    }
   }
 ]

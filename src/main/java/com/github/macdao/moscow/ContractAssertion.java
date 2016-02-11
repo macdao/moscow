@@ -69,7 +69,7 @@ public class ContractAssertion {
         final String uri = format("http://%s:%d%s", host, port, decode(contractRequest.getUri()));
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
 
-        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<Object>(null, null), String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<Object>(contractRequest.getText(), null), String.class);
         return responseEntity;
     }
 

@@ -1,6 +1,7 @@
 package com.github.macdao.moscow;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ArrayListMultimap;
 
@@ -14,7 +15,7 @@ import java.util.List;
 
 
 public class ContractContainer {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     private final ArrayListMultimap<String, Contract> contractMap = ArrayListMultimap.create();
 
     public ContractContainer(Path... paths) {
