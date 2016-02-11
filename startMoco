@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd src/test/resources
+cd src/test/resources/contracts
 ./moco http -p 12306 -g index.json
