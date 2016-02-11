@@ -1,31 +1,5 @@
 [
   {
-    "description": "should_response_text_foo",
-    "response": {
-      "text": "foo"
-    }
-  },
-  {
-    "description": "request_text_foo_should_response_text_bar",
-    "request": {
-      "method": "POST",
-      "text": "foo"
-    },
-    "response": {
-      "text": "bar"
-    }
-  },
-  {
-    "description": "request_file_should_response_text_bar2",
-    "request": {
-      "method": "POST",
-      "file": "foo.request"
-    },
-    "response": {
-      "text": "bar2"
-    }
-  },
-  {
     "description": "request_param_should_response_bar4",
     "request": {
       "uri": "/foo",

@@ -1,5 +1,8 @@
 [
   {
+    "include": "default.json"
+  },
+  {
     "include": "foo.json"
   }
 ]
