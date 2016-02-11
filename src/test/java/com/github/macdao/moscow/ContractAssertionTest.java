@@ -98,6 +98,7 @@ public class ContractAssertionTest {
     @Test
     public void request_text_bar3_should_response_json() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setHost("127.0.0.1")
                 .setPort(12306)
                 .assertContract();
     }

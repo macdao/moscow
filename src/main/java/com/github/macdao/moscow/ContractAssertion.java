@@ -54,6 +54,11 @@ public class ContractAssertion {
         return this;
     }
 
+    public ContractAssertion setHost(String host) {
+        this.host = host;
+        return this;
+    }
+
     public ContractAssertion necessity() {
         necessity = true;
         return this;
