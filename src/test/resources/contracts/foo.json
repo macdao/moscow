@@ -1,5 +1,6 @@
 [
   {
+    "description": "should_response_foo",
     "response": {
       "text": "foo"
     }

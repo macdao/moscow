@@ -18,20 +18,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ContractAssertion {
-    private static final Logger logger = LoggerFactory.getLogger(ContractAssertion.class);
-    private int port = 8080;
-    private List<Contract> contracts;
-    private ContractContainer contractContainer;
-    private RestTemplate restTemplate = new TestRestTemplate();
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final List<Contract> contracts;
+    private final RestTemplate restTemplate = new TestRestTemplate();
     private String host = "localhost";
+    private int port = 8080;
 
-    public ContractAssertion(ContractContainer contractContainer) {
-        this.contractContainer = contractContainer;
-    }
-
-    public ContractAssertion setDescription(String description) {
-        contracts = contractContainer.findContracts(description);
-        return this;
+    public ContractAssertion(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     public ContractAssertion setPort(int port) {

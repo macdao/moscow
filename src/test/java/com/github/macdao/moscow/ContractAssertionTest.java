@@ -9,9 +9,8 @@ public class ContractAssertionTest {
     public void should_response_foo() throws Exception {
         final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
 
-        new ContractAssertion(contractContainer)
+        new ContractAssertion(contractContainer.findContracts("should_response_foo"))
                 .setPort(12306)
-                .setDescription("should_response_foo")
                 .assertContract();
     }
 }
