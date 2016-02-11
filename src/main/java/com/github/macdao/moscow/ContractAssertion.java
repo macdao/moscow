@@ -8,6 +8,8 @@ import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.core.io.PathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -77,16 +79,23 @@ public class ContractAssertion {
             builder.queryParam(query.getKey(), query.getValue());
         }
 
-        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<>(getBody(contract), null), String.class);
+        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<>(body(contract), headers(contractRequest)), String.class);
         return responseEntity;
     }
 
-    private Object getBody(Contract contract) {
+    private Object body(Contract contract) {
         final ContractRequest contractRequest = contract.getRequest();
         if (contractRequest.getFile() != null) {
             return new PathResource(contract.getBase().resolve(contractRequest.getFile()));
         }
         return contractRequest.getText();
+    }
+
+
+    private MultiValueMap<String, String> headers(ContractRequest contractRequest) {
+        final LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.setAll(contractRequest.getHeaders());
+        return headers;
     }
 
     private String decode(String uri) {

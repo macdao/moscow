@@ -10,6 +10,18 @@
     }
   },
   {
+    "description": "request_json_should_response_bar4",
+    "request": {
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json"
+      }
+    },
+    "response": {
+      "text": "bar4"
+    }
+  },
+  {
     "description": "should_response_text_foo",
     "response": {
       "text": "foo"
