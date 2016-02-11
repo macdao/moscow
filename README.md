@@ -133,7 +133,7 @@ public class MyApiTest extends ApiTestBase {
 
 ## Supported Moco Features
 
-Moscow use a sutset of Moco contracts:
+Moscow use a subset of Moco contracts:
 
 - request
  - text (with method)
@@ -151,7 +151,7 @@ Moscow use a sutset of Moco contracts:
 
 ## Not Supported Moco Features
 
-Because we need to build requests from Moco contracts, so the matcher such as xpaths and json_paths will not be supported.
+Because we need to build requests from Moco contracts, so the matchers such as `xpaths` and `json_paths` will not be supported.
 
 - request
  - version
