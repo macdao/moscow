@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
@@ -71,6 +72,10 @@ public class ContractAssertion {
 
         final String uri = format("http://%s:%d%s", host, port, decode(contractRequest.getUri()));
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
+
+        for (Map.Entry<String, String> query : contractRequest.getQueries().entrySet()) {
+            builder.queryParam(query.getKey(), query.getValue());
+        }
 
         final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<>(getBody(contract), null), String.class);
         return responseEntity;

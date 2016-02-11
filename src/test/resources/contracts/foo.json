@@ -26,6 +26,18 @@
     }
   },
   {
+    "description": "request_param_should_response_bar4",
+    "request": {
+      "uri": "/foo",
+      "queries": {
+        "param": "blah"
+      }
+    },
+    "response": {
+      "text": "bar4"
+    }
+  },
+  {
     "description": "request_uri_foo_should_response_bar3",
     "request": {
       "uri": "/foo"
