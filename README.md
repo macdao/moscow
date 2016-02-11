@@ -110,6 +110,19 @@ In JUnit, we can use `TestName` rule to get currect test method name.
 
 Because tests may change the server status/DB data, I re-migrate DB before tests. For example, I use [Flyway](http://flywaydb.org/).
 
+### Spring Boot Integration
+
+There is a [sample code](https://github.com/macdao/moscow/tree/master/src/test/java/com/github/macdao/moscow/spring) using Spring Boot:
+
+```java
+public class MyApiTest extends ApiTestBase {
+    @Test
+    public void request_param_should_response_text_bar4() throws Exception {
+        assertContract();
+    }
+}
+```
+
 ## Supported Moco Features
 
 Moscow use a sutset of Moco contracts:
