@@ -1,5 +1,15 @@
 [
   {
+    "description": "request_put_foo2_should_response_bar3",
+    "request": {
+      "method": "PUT",
+      "text": "foo2"
+    },
+    "response": {
+      "text": "bar3"
+    }
+  },
+  {
     "description": "should_response_text_foo",
     "response": {
       "text": "foo"
