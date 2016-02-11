@@ -60,8 +60,8 @@ public class ContractAssertion {
         return this;
     }
 
-    public ContractAssertion necessity() {
-        necessity = true;
+    public ContractAssertion setNecessity(boolean necessity) {
+        this.necessity = necessity;
         return this;
     }
 
