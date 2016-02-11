@@ -14,6 +14,20 @@
     }
   },
   {
+    "description": "# not_a_contract",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar4"
+    },
+    "response": {
+      "json": {
+        "foo": "bar",
+        "foo2": "bar2"
+      }
+    }
+  },
+  {
     "description": "request_text_bar_should_response_201",
     "request": {
       "method": "POST",
@@ -46,6 +60,19 @@
       "method": "POST",
       "uri": "/bar",
       "text": "bar3"
+    },
+    "response": {
+      "json": {
+        "foo": "bar"
+      }
+    }
+  },
+  {
+    "description": "request_text_bar4_should_response_foo",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar4"
     },
     "response": {
       "json": {

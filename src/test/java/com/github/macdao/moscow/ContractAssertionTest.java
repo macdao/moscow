@@ -101,4 +101,12 @@ public class ContractAssertionTest {
                 .setPort(12306)
                 .assertContract();
     }
+
+    @Test
+    public void request_text_bar4_should_response_foo() throws Exception {
+        new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setPort(12306)
+                .necessity()
+                .assertContract();
+    }
 }

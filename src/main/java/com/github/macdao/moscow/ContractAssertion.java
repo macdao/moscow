@@ -42,6 +42,7 @@ public class ContractAssertion {
 
     private String host = "localhost";
     private int port = 8080;
+    private boolean necessity = false;
 
     public ContractAssertion(List<Contract> contracts) {
         Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
@@ -50,6 +51,11 @@ public class ContractAssertion {
 
     public ContractAssertion setPort(int port) {
         this.port = port;
+        return this;
+    }
+
+    public ContractAssertion necessity() {
+        necessity = true;
         return this;
     }
 
@@ -98,8 +104,10 @@ public class ContractAssertion {
     }
 
     private void assertJson(String expectedStr, String actualStr) {
+        final JSONCompareMode mode = necessity ? JSONCompareMode.STRICT_ORDER : JSONCompareMode.STRICT;
+
         try {
-            JSONAssert.assertEquals(expectedStr, actualStr, JSONCompareMode.STRICT);
+            JSONAssert.assertEquals(expectedStr, actualStr, mode);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
