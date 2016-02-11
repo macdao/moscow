@@ -12,6 +12,19 @@
     }
   },
   {
+    "description": "request_json_should_response_bar",
+    "request": {
+      "method": "POST",
+      "uri": "/foo",
+      "json": {
+        "foo": "bar"
+      }
+    },
+    "response": {
+      "text": "bar"
+    }
+  },
+  {
     "description": "request_uri_foo_should_response_bar3",
     "request": {
       "uri": "/foo"

@@ -85,10 +85,16 @@ public class ContractAssertion {
 
     private Object body(Contract contract) {
         final ContractRequest contractRequest = contract.getRequest();
+
+        if (contractRequest.getText() != null) {
+            return contractRequest.getText();
+        }
+
         if (contractRequest.getFile() != null) {
             return new PathResource(contract.getBase().resolve(contractRequest.getFile()));
         }
-        return contractRequest.getText();
+
+        return contractRequest.getJson();
     }
 
 

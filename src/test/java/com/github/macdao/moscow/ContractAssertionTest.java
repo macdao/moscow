@@ -67,4 +67,11 @@ public class ContractAssertionTest {
                 .setPort(12306)
                 .assertContract();
     }
+
+    @Test
+    public void request_json_should_response_bar() throws Exception {
+        new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setPort(12306)
+                .assertContract();
+    }
 }

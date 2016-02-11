@@ -12,6 +12,7 @@ public class ContractRequest {
     private String file;
     private Map<String, String> queries = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
+    private Object json;
 
     public String getUri() {
         return uri;
@@ -59,5 +60,13 @@ public class ContractRequest {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    public Object getJson() {
+        return json;
+    }
+
+    public void setJson(Object json) {
+        this.json = json;
     }
 }
