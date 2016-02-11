@@ -1,12 +1,12 @@
 [
   {
-    "description": "should_response_foo",
+    "description": "should_response_text_foo",
     "response": {
       "text": "foo"
     }
   },
   {
-    "description": "request_foo_should_response_bar",
+    "description": "request_text_foo_should_response_text_bar",
     "request": {
       "method": "POST",
       "text": "foo"
@@ -16,13 +16,22 @@
     }
   },
   {
-    "description": "request_foo_file_should_response_file",
+    "description": "request_file_should_response_text_bar",
     "request": {
       "method": "POST",
       "file": "foo.request"
     },
     "response": {
-      "text": "file"
+      "text": "bar"
+    }
+  },
+  {
+    "description": "request_uri_foo_should_response_bar",
+    "request": {
+      "uri": "/foo"
+    },
+    "response": {
+      "text": "bar"
     }
   }
 ]

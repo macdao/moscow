@@ -13,14 +13,14 @@ public class ContractAssertionTest {
     public final TestName name = new TestName();
 
     @Test
-    public void should_response_foo() throws Exception {
+    public void should_response_text_foo() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
     }
 
     @Test
-    public void request_foo_should_response_bar() throws Exception {
+    public void request_text_foo_should_response_text_bar() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();
@@ -34,7 +34,7 @@ public class ContractAssertionTest {
     }
 
     @Test
-    public void request_foo_file_should_response_file() throws Exception {
+    public void request_file_should_response_text_bar() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
                 .assertContract();

@@ -12,11 +12,12 @@ public class ContractContainerTest {
     @Test
     public void should_find_correct_contracts() throws Exception {
         final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
+        final String contractName = "should_response_text_foo";
 
-        final List<Contract> contracts = contractContainer.findContracts("should_response_foo");
+        final List<Contract> contracts = contractContainer.findContracts(contractName);
         assertThat(contracts.size(), is(1));
         final Contract contract = contracts.get(0);
-        assertThat(contract.getDescription(), is("should_response_foo"));
+        assertThat(contract.getDescription(), is(contractName));
         assertThat(contract.getResponse().getText(), is("foo"));
     }
 }
