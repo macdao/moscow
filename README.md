@@ -6,6 +6,14 @@ Moscow is a tool for testing provider's API using Moco's [configuration file](ht
 
 Moscow can turn Moco contracts into executable tests. It can be a TDD tool which can drive RESTful APIs.
 
+## Why Moco and Moscow
+
+Moco use [JSON to describe API](https://github.com/dreamhead/moco/blob/master/moco-doc/apis.md). With Moco it's very convenient to describe JSON based RESTful APIs. While [RAML](http://raml.org/) uses YAML, [API Blueprint](https://apiblueprint.org/) uses Markdown, they are not friendly to JSON.
+
+Although [Swagger](http://swagger.io/) uses JSON, it focus on the schema just like RAML and API Blueprint. Moco use example instead of schema, I call it Contract by Example. The reason I prefer example over shema is from here: [SpecificationByExample](http://martinfowler.com/bliki/SpecificationByExample.html) and examples make contract driven development possible.
+
+I already use Moco and Moscow on my projects. I hope Moscow can help you just like it helped me.
+
 ## Usages
 
 ### Basic Usages
