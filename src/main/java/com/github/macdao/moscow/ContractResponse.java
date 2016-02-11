@@ -9,6 +9,7 @@ public class ContractResponse {
     private int status = HttpStatus.OK.value();
     private String text;
     private Map<String, String> headers = new HashMap<>();
+    private Object json;
 
     public int getStatus() {
         return status;
@@ -32,5 +33,13 @@ public class ContractResponse {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    public Object getJson() {
+        return json;
+    }
+
+    public void setJson(Object json) {
+        this.json = json;
     }
 }

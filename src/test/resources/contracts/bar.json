@@ -39,5 +39,18 @@
         "content-type": "application/json"
       }
     }
+  },
+  {
+    "description": "request_text_bar3_should_response_json",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar3"
+    },
+    "response": {
+      "json": {
+        "foo": "bar"
+      }
+    }
   }
 ]

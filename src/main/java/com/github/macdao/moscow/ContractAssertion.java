@@ -1,9 +1,14 @@
 package com.github.macdao.moscow;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.TestRestTemplate;
@@ -33,6 +38,7 @@ public class ContractAssertion {
     private final RestTemplate restTemplate = new TestRestTemplate();
     private final PathMatcher pathMatcher = new AntPathMatcher();
     private final Map<String, String> variables = new HashMap<>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private String host = "localhost";
     private int port = 8080;
@@ -83,7 +89,28 @@ public class ContractAssertion {
     }
 
     private void assertBody(ResponseEntity<String> responseEntity, ContractResponse contractResponse) {
-        assertThat(responseEntity.getBody(), is(contractResponse.getText()));
+        final String actualBody = responseEntity.getBody();
+        if (contractResponse.getText() != null) {
+            assertThat(actualBody, is(contractResponse.getText()));
+        } else if (contractResponse.getJson() != null) {
+            assertJson(serialize(contractResponse.getJson()), actualBody);
+        }
+    }
+
+    private void assertJson(String expectedStr, String actualStr) {
+        try {
+            JSONAssert.assertEquals(expectedStr, actualStr, JSONCompareMode.STRICT);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String serialize(Object json) {
+        try {
+            return objectMapper.writeValueAsString(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private ResponseEntity<String> execute(Contract contract) {
