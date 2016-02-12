@@ -59,7 +59,7 @@ uploadArchives {
                 name 'moscow'
                 packaging 'jar'
                 description 'Moscow is a tool for testing provider\'s API using Moco\'s configuration file (contracts)'
-                url ''
+                url 'https://github.com/macdao/moscow'
 
                 scm {
                     connection 'scm:git:git@github.com:macdao/moscow.git'
@@ -69,8 +69,8 @@ uploadArchives {
 
                 licenses {
                     license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name 'MIT License'
+                        url 'http://www.opensource.org/licenses/mit-license.php'
                     }
                 }
 
