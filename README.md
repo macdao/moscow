@@ -18,6 +18,21 @@ I already use Moco and Moscow on my projects. I hope Moscow can help you just li
 
 ### Basic Usages
 
+Now you can use maven or gradle to get Moscow SNAPSHOT version. If you are using gradle:
+
+```groovy
+repositories {
+    maven {
+        url 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    testCompile 'com.github.macdao:moscow:0.1-SNAPSHOT'
+}
+
+```
+
 1. put your json files into a folder, such as `src/test/resources/contracts`. One of your json files should looks like this:
 
   ```json
