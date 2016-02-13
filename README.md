@@ -48,13 +48,13 @@ dependencies {
 
   The `description` is used to identify the contract. One contract actually is a test case, so the description of the contract can follow the test naming rules. For example, you can use [BDD](https://en.wikipedia.org/wiki/Behavior_Driven_Development) style `$given_xxx_$when_xxx_$then_xxx` or [User story](https://en.wikipedia.org/wiki/User_story) style `as_$role_i_want_$goal`. I used `$role_can/cannot_$do_something[_when_$sometime]` style in a RESTful APIs project.
   
-2. create an instance of ContractContainer:
+2. create an instance of ContractContainer with your contracts directory:
 
   ```java
   private static final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
   ```
 
-3. create an instance of ContractAssertion:
+3. create an instance of ContractAssertion and do the test:
 
   ```java
     @Test
@@ -65,6 +65,8 @@ dependencies {
     }
   ```
   The method `ContractContainer.findContracts` will return a contract list, that means you can assert 2 or more contracts with same description at the same time.
+
+  `assertContract` will build request from contract, send it to server and compare the response with contract. It will compare status code, headers and body (if present in contracts). For headers Moscow only care about the ones present in contract, others in real response will be ignored.
 
 ### Path Matcher
 
@@ -86,6 +88,44 @@ final String barId = new ContractAssertion(contractContainer.findContracts(name.
 ```
 
 `{port}` is very special because it will be replaced with real port before assertion.
+
+### Necessity mode
+
+Sometimes you only care part of response body which means it's not necessary that the response body as same as contract exactly. For example Spring will return something like this when 401:
+
+```json
+{
+    "timestamp": 1455330165626,
+    "status": 401,
+    "error": "Unauthorized",
+    "exception": "org.springframework.security.access.AccessDeniedException",
+    "message": "Full authentication is required to access this resource",
+    "path": "/api/users"
+}
+```
+
+While you don't care about the timestamp, the message may be the only info you care about:
+
+```json
+    "response": {
+        "status": 401,
+        "json": {
+            "message": "Full authentication is required to access this resource"
+        }
+    }
+```
+
+Moscow support this using `necessity mode`:
+
+```java
+    @Test
+    public void request_text_bar4_should_response_foo() throws Exception {
+        new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setPort(12306)
+                .setNecessity(true)
+                .assertContract();
+    }
+```
 
 ### Timeout
 
@@ -113,7 +153,7 @@ For example, given contract root directory is `src/test/resources/contracts`, co
 
 The creation of ContractContainer instance may be costly, so it should be reused.
 
-### Use method name as contract name to avoid duplicate
+### Use `TestName` rule to avoid duplicate
 
 In JUnit, we can use `TestName` rule to get currect test method name.
 
@@ -129,13 +169,9 @@ In JUnit, we can use `TestName` rule to get currect test method name.
     }
 ```
 
-### DB Migration
+### Use Superclass to avoid duplicate
 
-Because tests may change the server status/DB data, I re-migrate DB before tests. For example, I use [Flyway](http://flywaydb.org/).
-
-### Spring Boot Integration
-
-There is a [sample code](https://github.com/macdao/moscow/tree/master/src/test/java/com/github/macdao/moscow/spring) using Spring Boot:
+Use a superclass to reduce duplicate. You can write code of creating ContractAssertion only once in a superclass like I did in [MyApiTest](https://github.com/macdao/moscow/blob/master/src/test/java/com/github/macdao/moscow/spring/MyApiTest.java). Also you can do this to contract names.
 
 ```java
 public class MyApiTest extends ApiTestBase {
@@ -144,6 +180,25 @@ public class MyApiTest extends ApiTestBase {
         assertContract();
     }
 }
+```
+
+### Spring Boot Integration
+
+There is a [sample code](https://github.com/macdao/moscow/tree/master/src/test/java/com/github/macdao/moscow/spring) using Spring Boot. Spring's integration testing can auto start application in a servlet container so you don't need to care about the application starting.
+
+### DB Migration
+
+Because tests may change the server status/DB data, I re-migrate DB before tests. For example, I use [Flyway](http://flywaydb.org/):
+
+```java
+    @Autowired
+    private Flyway flyway;
+
+    @Before
+    public void setUp() throws Exception {
+        flyway.clean();
+        flyway.migrate();
+    }
 ```
 
 ## Supported Moco Features
