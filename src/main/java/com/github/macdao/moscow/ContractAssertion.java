@@ -110,8 +110,16 @@ public class ContractAssertion {
         if (contractResponse.getText() != null) {
             assertThat(actualBody, is(contractResponse.getText()));
         } else if (contractResponse.getJson() != null) {
-            assertJson(serialize(contractResponse.getJson()), actualBody);
+            assertJson(resolve(contractResponse.getJson()), actualBody);
         }
+    }
+
+    private String resolve(Object json) {
+        String expectedJson = serialize(json);
+        for (Map.Entry<String, String> entry : variables.entrySet()) {
+            expectedJson = expectedJson.replace(format("{%s}", entry.getKey()), entry.getValue());
+        }
+        return expectedJson;
     }
 
     private void assertJson(String expectedStr, String actualStr) {

@@ -93,5 +93,39 @@
         "unit": "second"
       }
     }
+  },
+  {
+    "description": "# request_text_bar6_should_response_201_and_body",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar6"
+    },
+    "response": {
+      "status": 201,
+      "headers": {
+        "Location": "http://localhost:12306/bar/bar-id"
+      },
+      "json": {
+        "id": "bar-id"
+      }
+    }
+  },
+  {
+    "description": "request_text_bar6_should_response_201_and_body",
+    "request": {
+      "method": "POST",
+      "uri": "/bar",
+      "text": "bar6"
+    },
+    "response": {
+      "status": 201,
+      "headers": {
+        "Location": "http://localhost:{port}/bar/{bar-id}"
+      },
+      "json": {
+        "id": "{bar-id}"
+      }
+    }
   }
 ]

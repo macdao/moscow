@@ -118,4 +118,11 @@ public class ContractAssertionTest {
                 .setExecutionTimeout(100)
                 .assertContract();
     }
+
+    @Test
+    public void request_text_bar6_should_response_201_and_body() throws Exception {
+        new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
+                .setPort(12306)
+                .assertContract();
+    }
 }
