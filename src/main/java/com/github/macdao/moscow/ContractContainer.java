@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class ContractContainer {
     private static final ObjectMapper objectMapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     private static final Logger logger = LoggerFactory.getLogger(ContractContainer.class);
 
-    private final ArrayListMultimap<String, Contract> contractMap = ArrayListMultimap.create();
+    private final ListMultimap<String, Contract> contractMap = ArrayListMultimap.create();
 
     public ContractContainer(Path... paths) {
         for (Path path : paths) {
