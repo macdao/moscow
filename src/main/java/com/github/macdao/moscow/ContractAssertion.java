@@ -2,6 +2,9 @@ package com.github.macdao.moscow;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.macdao.moscow.http.RestExecutor;
+import com.github.macdao.moscow.http.RestResponse;
+import com.github.macdao.moscow.http.RestTemplateExecutor;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import org.hamcrest.Description;
@@ -11,15 +14,9 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.core.io.PathResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.PathMatcher;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
@@ -35,7 +32,7 @@ import static org.junit.Assert.assertThat;
 public class ContractAssertion {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Contract> contracts;
-    private final RestTemplate restTemplate = new TestRestTemplate();
+    private final RestExecutor restExecutor = new RestTemplateExecutor();
     private final PathMatcher pathMatcher = new AntPathMatcher();
     private final Map<String, String> variables = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -78,7 +75,7 @@ public class ContractAssertion {
     }
 
     private void assertContract(Contract contract) {
-        final ResponseEntity<String> responseEntity = execute(contract);
+        final RestResponse responseEntity = execute(contract);
 
         logger.info("Status code: {}", responseEntity.getStatusCode());
         logger.info("Headers: {}", responseEntity.getHeaders());
@@ -87,25 +84,25 @@ public class ContractAssertion {
         assertContract(responseEntity, contract.getResponse());
     }
 
-    private void assertContract(ResponseEntity<String> responseEntity, ContractResponse contractResponse) {
+    private void assertContract(RestResponse responseEntity, ContractResponse contractResponse) {
         assertStatusCode(responseEntity, contractResponse);
         assertHeaders(responseEntity, contractResponse);
         assertBody(responseEntity, contractResponse);
     }
 
-    private void assertStatusCode(ResponseEntity<?> responseEntity, ContractResponse contractResponse) {
-        assertThat(responseEntity.getStatusCode().value(), is(contractResponse.getStatus()));
+    private void assertStatusCode(RestResponse responseEntity, ContractResponse contractResponse) {
+        assertThat(responseEntity.getStatusCode(), is(contractResponse.getStatus()));
     }
 
-    private void assertHeaders(ResponseEntity<?> responseEntity, ContractResponse contractResponse) {
+    private void assertHeaders(RestResponse responseEntity, ContractResponse contractResponse) {
         for (Map.Entry<String, String> entry : contractResponse.getHeaders().entrySet()) {
-            final String actualHeader = responseEntity.getHeaders().get(entry.getKey()).get(0);
+            final String actualHeader = responseEntity.getHeaders().get(entry.getKey());
             final String expectedPattern = entry.getValue().replace("{port}", String.valueOf(port));
             assertThat(actualHeader, new StringTypeSafeMatcher(expectedPattern));
         }
     }
 
-    private void assertBody(ResponseEntity<String> responseEntity, ContractResponse contractResponse) {
+    private void assertBody(RestResponse responseEntity, ContractResponse contractResponse) {
         final String actualBody = responseEntity.getBody();
         if (contractResponse.getText() != null) {
             assertThat(actualBody, is(contractResponse.getText()));
@@ -140,7 +137,7 @@ public class ContractAssertion {
         }
     }
 
-    private ResponseEntity<String> execute(Contract contract) {
+    private RestResponse execute(Contract contract) {
         final ContractRequest contractRequest = contract.getRequest();
 
         final String uri = format("http://%s:%d%s", host, port, decode(contractRequest.getUri()));
@@ -151,7 +148,7 @@ public class ContractAssertion {
         }
         final long start = System.currentTimeMillis();
 
-        final ResponseEntity<String> responseEntity = restTemplate.exchange(builder.build().toUri(), contractRequest.getMethod(), new HttpEntity<>(body(contract), headers(contractRequest)), String.class);
+        final RestResponse responseEntity = restExecutor.execute(contractRequest.getMethod().name(), builder.build().toUri(), contractRequest.getHeaders(), body(contract));
         final long spent = System.currentTimeMillis() - start;
 
         final String description = contract.getDescription();
@@ -176,13 +173,6 @@ public class ContractAssertion {
         }
 
         return contractRequest.getJson();
-    }
-
-
-    private MultiValueMap<String, String> headers(ContractRequest contractRequest) {
-        final LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.setAll(contractRequest.getHeaders());
-        return headers;
     }
 
     private String decode(String uri) {
