@@ -96,6 +96,14 @@ final String barId = new ContractAssertion(contractContainer.findContracts(name.
 
 `{port}` is special as it will be replaced by real port before assertion.
 
+Moscow also support the ID appear in the contract response body:
+
+```json
+"json": {
+    "id": "{bar-id}"
+}
+```
+
 ### Necessity Mode
 
 Not all the response body is necessary. For example, Spring returns the followings for 401 response:
