@@ -34,6 +34,7 @@ public class ContractAssertion {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private RestExecutor restExecutor = RestExecutorFactory.getRestExecutor();
+    private String scheme = "http";
     private String host = "localhost";
     private int port = 8080;
     private boolean necessity = false;
@@ -46,6 +47,11 @@ public class ContractAssertion {
 
     public ContractAssertion setRestExecutor(RestExecutor restExecutor) {
         this.restExecutor = restExecutor;
+        return this;
+    }
+
+    public ContractAssertion setScheme(String scheme) {
+        this.scheme = scheme;
         return this;
     }
 
@@ -142,7 +148,7 @@ public class ContractAssertion {
     private RestResponse execute(Contract contract) {
         final ContractRequest contractRequest = contract.getRequest();
 
-        final String uri = format("http://%s:%d%s", host, port, decode(contractRequest.getUri()));
+        final String uri = format("%s://%s:%d%s", scheme, host, port, decode(contractRequest.getUri()));
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
 
         for (Map.Entry<String, String> query : contractRequest.getQueries().entrySet()) {
