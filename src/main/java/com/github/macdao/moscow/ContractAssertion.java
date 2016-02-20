@@ -1,15 +1,13 @@
 package com.github.macdao.moscow;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.macdao.moscow.http.RestExecutor;
+import com.github.macdao.moscow.http.RestExecutorFactory;
 import com.github.macdao.moscow.http.RestResponse;
-import com.github.macdao.moscow.http.RestTemplateExecutor;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
@@ -30,9 +28,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ContractAssertion {
+    private static final RestExecutor restExecutor = RestExecutorFactory.getRestExecutor();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Contract> contracts;
-    private final RestExecutor restExecutor = new RestTemplateExecutor();
     private final PathMatcher pathMatcher = new AntPathMatcher();
     private final Map<String, String> variables = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -124,7 +122,7 @@ public class ContractAssertion {
 
         try {
             JSONAssert.assertEquals(expectedStr, actualStr, mode);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -132,7 +130,7 @@ public class ContractAssertion {
     private String serialize(Object json) {
         try {
             return objectMapper.writeValueAsString(json);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
