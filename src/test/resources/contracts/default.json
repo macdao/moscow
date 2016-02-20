@@ -14,7 +14,7 @@
     "request": {
       "method": "POST",
       "headers": {
-        "content-type": "application/json"
+        "Authorization": "Basic dXNlcjpwYXNzd29yZA=="
       }
     },
     "response": {

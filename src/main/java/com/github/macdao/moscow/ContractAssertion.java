@@ -12,7 +12,6 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.PathResource;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -28,13 +27,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ContractAssertion {
-    private static final RestExecutor restExecutor = RestExecutorFactory.getRestExecutor();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Contract> contracts;
     private final PathMatcher pathMatcher = new AntPathMatcher();
     private final Map<String, String> variables = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private RestExecutor restExecutor = RestExecutorFactory.getRestExecutor();
     private String host = "localhost";
     private int port = 8080;
     private boolean necessity = false;
@@ -43,6 +42,11 @@ public class ContractAssertion {
     public ContractAssertion(List<Contract> contracts) {
         Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
         this.contracts = contracts;
+    }
+
+    public ContractAssertion setRestExecutor(RestExecutor restExecutor) {
+        this.restExecutor = restExecutor;
+        return this;
     }
 
     public ContractAssertion setPort(int port) {
@@ -167,7 +171,7 @@ public class ContractAssertion {
         }
 
         if (contractRequest.getFile() != null) {
-            return new PathResource(contract.getBase().resolve(contractRequest.getFile()));
+            return contract.getBase().resolve(contractRequest.getFile());
         }
 
         return contractRequest.getJson();
