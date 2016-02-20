@@ -153,7 +153,7 @@ public class ContractAssertion {
         logger.info("Contract `{}` spent {}ms", description, spent);
 
         if (executionTimeout > 0 && spent > executionTimeout) {
-            throw new RuntimeException(format("Contract `%s` spent %dms", description, spent));
+            throw new ExecutionTimeoutException(format("Contract `%s` spent %dms", description, spent));
         }
 
         return responseEntity;

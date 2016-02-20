@@ -89,7 +89,7 @@ public class ContractAssertionTest {
                 .assertContract();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = ExecutionTimeoutException.class)
     public void request_text_bar5_should_response_timeout() throws Exception {
         new ContractAssertion(contractContainer.findContracts(name.getMethodName()))
                 .setPort(12306)
