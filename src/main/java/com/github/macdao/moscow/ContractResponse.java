@@ -1,12 +1,10 @@
 package com.github.macdao.moscow;
 
-import org.springframework.http.HttpStatus;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ContractResponse {
-    private int status = HttpStatus.OK.value();
+    private int status = 200;
     private String text;
     private Map<String, String> headers = new HashMap<>();
     private Object json;
