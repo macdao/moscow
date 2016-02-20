@@ -1,13 +1,11 @@
 package com.github.macdao.moscow;
 
-import org.springframework.http.HttpMethod;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ContractRequest {
     private String uri = "/";
-    private HttpMethod method = HttpMethod.GET;
+    private String method = "GET";
     private String text;
     private String file;
     private Map<String, String> queries = new HashMap<>();
@@ -22,11 +20,11 @@ public class ContractRequest {
         this.uri = uri;
     }
 
-    public HttpMethod getMethod() {
+    public String getMethod() {
         return method;
     }
 
-    public void setMethod(HttpMethod method) {
+    public void setMethod(String method) {
         this.method = method;
     }
 

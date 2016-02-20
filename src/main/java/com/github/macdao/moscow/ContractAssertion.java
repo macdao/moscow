@@ -146,7 +146,7 @@ public class ContractAssertion {
         }
         final long start = System.currentTimeMillis();
 
-        final RestResponse responseEntity = restExecutor.execute(contractRequest.getMethod().name(), builder.build().toUri(), contractRequest.getHeaders(), body(contract));
+        final RestResponse responseEntity = restExecutor.execute(contractRequest.getMethod(), builder.build().toUri(), contractRequest.getHeaders(), body(contract));
         final long spent = System.currentTimeMillis() - start;
 
         final String description = contract.getDescription();
