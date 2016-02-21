@@ -90,3 +90,11 @@ uploadArchives {
     }
 }
 
+def installer = install.repositories.mavenInstaller
+def deployer = uploadArchives.repositories.mavenDeployer
+
+[installer, deployer]*.pom*.whenConfigured { pom ->
+    pom.dependencies.findAll { dep -> dep.groupId == 'com.squareup.okhttp3' || dep.groupId == 'org.springframework.boot' }.each {
+        it.optional = true
+    }
+}
