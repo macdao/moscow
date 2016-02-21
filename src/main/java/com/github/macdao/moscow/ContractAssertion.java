@@ -5,6 +5,7 @@ import com.github.macdao.moscow.http.RestExecutor;
 import com.github.macdao.moscow.http.RestExecutorFactory;
 import com.github.macdao.moscow.http.RestResponse;
 import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -14,10 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,15 +152,12 @@ public class ContractAssertion {
     private RestResponse execute(Contract contract) {
         final ContractRequest contractRequest = contract.getRequest();
 
-        final String uri = format("%s://%s:%d%s", scheme, host, port, decode(contractRequest.getUri()));
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
+        final String url = String.format("%s://%s:%d%s%s", scheme, host, port, decode(contractRequest.getUri()), queryString(contractRequest.getQueries()));
+        final URI uri = toUri(url);
 
-        for (Map.Entry<String, String> query : contractRequest.getQueries().entrySet()) {
-            builder.queryParam(query.getKey(), query.getValue());
-        }
         final long start = System.currentTimeMillis();
 
-        final RestResponse responseEntity = restExecutor.execute(contractRequest.getMethod(), builder.build().toUri(), contractRequest.getHeaders(), body(contract));
+        final RestResponse responseEntity = restExecutor.execute(contractRequest.getMethod(), uri, contractRequest.getHeaders(), body(contract));
         final long spent = System.currentTimeMillis() - start;
 
         final String description = contract.getDescription();
@@ -167,6 +168,27 @@ public class ContractAssertion {
         }
 
         return responseEntity;
+    }
+
+    private String queryString(Map<String, String> queries) {
+        if (queries.isEmpty()) {
+            return "";
+        }
+
+        final List<String> list = new ArrayList<>();
+        for (Map.Entry<String, String> query : queries.entrySet()) {
+            list.add(query.getKey() + "=" + encode(query.getValue()));
+        }
+
+        return "?" + Joiner.on("&").join(list);
+    }
+
+    private URI toUri(String url) {
+        try {
+            return new URI(url);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Object body(Contract contract) {
@@ -181,6 +203,14 @@ public class ContractAssertion {
         }
 
         return contractRequest.getJson();
+    }
+
+    private String encode(String value) {
+        try {
+            return URLEncoder.encode(value, Charsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String decode(String uri) {

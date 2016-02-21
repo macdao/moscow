@@ -4,7 +4,8 @@
     "request": {
       "uri": "/foo",
       "queries": {
-        "param": "blah"
+        "param": "blah",
+        "param2": "中文"
       }
     },
     "response": {
