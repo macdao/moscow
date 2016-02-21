@@ -24,6 +24,7 @@ You can get Moscow (SNAPSHOT version) by maven or gradle. To import by gradle:
 
 ```groovy
 repositories {
+    mavenCentral()
     maven {
         url 'https://oss.sonatype.org/content/groups/public/'
     }
