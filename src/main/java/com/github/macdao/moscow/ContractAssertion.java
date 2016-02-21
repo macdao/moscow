@@ -17,8 +17,6 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -36,7 +34,6 @@ import static org.junit.Assert.assertThat;
 public class ContractAssertion {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Contract> contracts;
-    private final PathMatcher pathMatcher = new AntPathMatcher();
     private final Map<String, String> variables = new HashMap<>();
     private final JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
 
@@ -222,12 +219,8 @@ public class ContractAssertion {
         }
 
         @Override
-        protected boolean matchesSafely(String item) {
-            final boolean match = pathMatcher.match(pattern, item);
-            if (match) {
-                variables.putAll(pathMatcher.extractUriTemplateVariables(pattern, item));
-            }
-            return match;
+        protected boolean matchesSafely(String str) {
+            return new AntPathStringMatcher(pattern).matchStrings(str, variables);
         }
     }
 }
