@@ -1,9 +1,10 @@
 package com.github.macdao.moscow;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.macdao.moscow.http.RestExecutor;
 import com.github.macdao.moscow.http.RestExecutorFactory;
 import com.github.macdao.moscow.http.RestResponse;
+import com.github.macdao.moscow.json.JsonConverter;
+import com.github.macdao.moscow.json.JsonConverterFactory;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -34,7 +35,7 @@ public class ContractAssertion {
     private final List<Contract> contracts;
     private final PathMatcher pathMatcher = new AntPathMatcher();
     private final Map<String, String> variables = new HashMap<>();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
 
     private RestExecutor restExecutor = RestExecutorFactory.getRestExecutor();
     private String scheme = "http";
@@ -123,7 +124,7 @@ public class ContractAssertion {
     }
 
     private String resolve(Object json) {
-        String expectedJson = serialize(json);
+        String expectedJson = jsonConverter.serialize(json);
         for (Map.Entry<String, String> entry : variables.entrySet()) {
             expectedJson = expectedJson.replace(format("{%s}", entry.getKey()), entry.getValue());
         }
@@ -135,14 +136,6 @@ public class ContractAssertion {
 
         try {
             JSONAssert.assertEquals(expectedStr, actualStr, mode);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String serialize(Object json) {
-        try {
-            return objectMapper.writeValueAsString(json);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

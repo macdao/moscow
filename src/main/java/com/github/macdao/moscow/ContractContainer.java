@@ -1,8 +1,7 @@
 package com.github.macdao.moscow;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.macdao.moscow.json.JsonConverter;
+import com.github.macdao.moscow.json.JsonConverterFactory;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.slf4j.Logger;
@@ -18,9 +17,8 @@ import java.util.List;
 
 
 public class ContractContainer {
-    private static final ObjectMapper objectMapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    private static final Logger logger = LoggerFactory.getLogger(ContractContainer.class);
-
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
     private final ListMultimap<String, Contract> contractMap = ArrayListMultimap.create();
 
     public ContractContainer(Path... paths) {
@@ -50,8 +48,7 @@ public class ContractContainer {
 
     private void loadContractsFromFile(Path file, Path base) throws IOException {
         if (file.getFileName().toString().endsWith(".json")) {
-            final List<Contract> contracts = objectMapper.readValue(file.toFile(), new TypeReference<List<Contract>>() {
-            });
+            final List<Contract> contracts = jsonConverter.deserializeContracts(file);
             for (Contract contract : contracts) {
                 final String description = contract.getDescription();
                 if (description != null) {

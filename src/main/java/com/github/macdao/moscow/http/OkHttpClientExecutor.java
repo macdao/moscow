@@ -1,6 +1,7 @@
 package com.github.macdao.moscow.http;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.macdao.moscow.json.JsonConverter;
+import com.github.macdao.moscow.json.JsonConverterFactory;
 import okhttp3.*;
 import okhttp3.internal.http.HttpMethod;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class OkHttpClientExecutor implements RestExecutor {
     private final OkHttpClient client = new OkHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
 
     @Override
     public RestResponse execute(String method, URI uri, Map<String, String> headers, Object body) {
@@ -52,18 +53,7 @@ public class OkHttpClientExecutor implements RestExecutor {
             return RequestBody.create(null, ((Path) body).toFile());
         }
 
-        return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), serialize(body));
-    }
-
-    private String serialize(Object body) {
-        if (body == null) {
-            return "";
-        }
-        try {
-            return objectMapper.writeValueAsString(body);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonConverter.serialize(body));
     }
 
     private Response execute(Request request) {
