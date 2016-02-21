@@ -129,6 +129,11 @@ public class ContractAssertionTest {
         assertContract();
     }
 
+    @Test
+    public void request_text_bar8_should_response_json_array() throws Exception {
+        assertContract();
+    }
+
     private Map<String, String> assertContract() {
         return new ContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
