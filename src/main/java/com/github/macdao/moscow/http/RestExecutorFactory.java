@@ -1,21 +1,18 @@
 package com.github.macdao.moscow.http;
 
+import com.github.macdao.moscow.util.ClassUtils;
+
 public class RestExecutorFactory {
-    private static boolean restTemplatePresent = isPresent("com.github.macdao.moscow.http.RestTemplateExecutor");
 
     public static RestExecutor getRestExecutor() {
-        if (restTemplatePresent) {
+        if (ClassUtils.isPresent("com.github.macdao.moscow.http.RestTemplateExecutor")) {
             return new RestTemplateExecutor();
         }
-        return new OkHttpClientExecutor();
-    }
 
-    private static boolean isPresent(String className) {
-        try {
-            Class.forName(className);
-            return true;
-        } catch (Throwable e) {
-            return false;
+        if (ClassUtils.isPresent("okhttp3.OkHttpClient")) {
+            return new OkHttpClientExecutor();
         }
+
+        return null;
     }
 }
