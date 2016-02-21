@@ -35,6 +35,15 @@ dependencies {
 
 ```
 
+If you are using Spring Boot (`spring-boot-starter-web` for more specific) that's all. But if you aren't using Spring Boot and don't want to depend on it, that's OK, Moscow can run without Spring Framework. The only thing you have to do is adding the OkHttp:
+
+```groovy
+dependencies {
+    testCompile 'com.github.macdao:moscow:0.1-SNAPSHOT'
+    testRuntime 'com.squareup.okhttp3:okhttp:3.1.2'
+}
+```
+
 
 ### Basic Usages
 
