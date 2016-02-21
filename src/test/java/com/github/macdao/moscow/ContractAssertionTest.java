@@ -124,6 +124,11 @@ public class ContractAssertionTest {
         assertContract();
     }
 
+    @Test
+    public void request_utf8_should_response_text_utf8() throws Exception {
+        assertContract();
+    }
+
     private Map<String, String> assertContract() {
         return new ContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
@@ -132,6 +137,6 @@ public class ContractAssertionTest {
     }
 
     private String methodName() {
-        return name.getMethodName().substring(0,name.getMethodName().length()-3);
+        return name.getMethodName().substring(0, name.getMethodName().length() - 3);
     }
 }

@@ -19,7 +19,6 @@ import org.springframework.util.PathMatcher;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -152,7 +151,7 @@ public class ContractAssertion {
     private RestResponse execute(Contract contract) {
         final ContractRequest contractRequest = contract.getRequest();
 
-        final String url = String.format("%s://%s:%d%s%s", scheme, host, port, decode(contractRequest.getUri()), queryString(contractRequest.getQueries()));
+        final String url = String.format("%s://%s:%d%s%s", scheme, host, port, contractRequest.getUri(), queryString(contractRequest.getQueries()));
         final URI uri = toUri(url);
 
         final long start = System.currentTimeMillis();
@@ -208,14 +207,6 @@ public class ContractAssertion {
     private String encode(String value) {
         try {
             return URLEncoder.encode(value, Charsets.UTF_8.name());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String decode(String uri) {
-        try {
-            return URLDecoder.decode(uri, Charsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

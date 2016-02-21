@@ -1,0 +1,11 @@
+[
+  {
+    "description": "request_utf8_should_response_text_utf8",
+    "request": {
+      "uri": "/%E5%A5%BD%E4%BA%BA"
+    },
+    "response": {
+      "text": "utf8"
+    }
+  }
+]

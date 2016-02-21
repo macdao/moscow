@@ -7,5 +7,8 @@
   },
   {
     "include": "bar.json"
+  },
+  {
+    "include": "中文.json"
   }
 ]
