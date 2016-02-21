@@ -1,4 +1,4 @@
-package com.github.macdao.moscow;
+package com.github.macdao.moscow.model;
 
 import java.util.HashMap;
 import java.util.Map;

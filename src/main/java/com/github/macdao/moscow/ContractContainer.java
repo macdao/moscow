@@ -2,6 +2,7 @@ package com.github.macdao.moscow;
 
 import com.github.macdao.moscow.json.JsonConverter;
 import com.github.macdao.moscow.json.JsonConverterFactory;
+import com.github.macdao.moscow.model.Contract;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.slf4j.Logger;

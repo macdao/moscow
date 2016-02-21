@@ -1,5 +1,6 @@
 package com.github.macdao.moscow;
 
+import com.github.macdao.moscow.model.Contract;
 import org.junit.Test;
 
 import java.nio.file.Paths;

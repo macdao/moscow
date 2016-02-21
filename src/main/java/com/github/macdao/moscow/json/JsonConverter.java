@@ -1,6 +1,6 @@
 package com.github.macdao.moscow.json;
 
-import com.github.macdao.moscow.Contract;
+import com.github.macdao.moscow.model.Contract;
 
 import java.nio.file.Path;
 import java.util.List;
