@@ -8,7 +8,6 @@ import com.github.macdao.moscow.json.JsonConverterFactory;
 import com.github.macdao.moscow.model.Contract;
 import com.github.macdao.moscow.model.ContractRequest;
 import com.github.macdao.moscow.model.ContractResponse;
-import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.hamcrest.Description;
@@ -22,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -199,7 +199,7 @@ public class ContractAssertion {
 
     private String encode(String value) {
         try {
-            return URLEncoder.encode(value, Charsets.UTF_8.name());
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
