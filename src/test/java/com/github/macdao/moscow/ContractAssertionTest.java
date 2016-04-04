@@ -134,6 +134,11 @@ public class ContractAssertionTest {
         assertContract();
     }
 
+    @Test
+    public void request_foo_port_should_response_port() throws Exception {
+        assertContract();
+    }
+
     private Map<String, String> assertContract() {
         return new ContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)

@@ -125,6 +125,7 @@ public class ContractAssertion {
 
     private String resolve(Object json) {
         String expectedJson = jsonConverter.serialize(json);
+        expectedJson = expectedJson.replace("{port}", String.valueOf(port));
         for (Map.Entry<String, String> entry : variables.entrySet()) {
             expectedJson = expectedJson.replace(format("{%s}", entry.getKey()), entry.getValue());
         }
