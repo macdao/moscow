@@ -37,7 +37,7 @@
     "response": {
       "status": 201,
       "headers": {
-        "Location": "http://localhost:{port}/bar/{bar-id}"
+        "Location": "http://{host}:{port}/bar/{bar-id}"
       }
     }
   },
@@ -121,7 +121,7 @@
     "response": {
       "status": 201,
       "headers": {
-        "Location": "http://localhost:{port}/bar/{bar-id}"
+        "Location": "http://{host}:{port}/bar/{bar-id}"
       },
       "json": {
         "id": "{bar-id}"

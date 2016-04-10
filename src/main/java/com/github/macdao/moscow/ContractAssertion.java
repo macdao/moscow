@@ -109,7 +109,8 @@ public class ContractAssertion {
     private void assertHeaders(RestResponse responseEntity, ContractResponse contractResponse) {
         for (Map.Entry<String, String> entry : contractResponse.getHeaders().entrySet()) {
             final String actualHeader = responseEntity.getHeaders().get(entry.getKey());
-            final String expectedPattern = entry.getValue().replace("{port}", String.valueOf(port));
+            final String expectedPattern = entry.getValue().replace("{port}", String.valueOf(port))
+                    .replace("{host}", host);
             assertThat(actualHeader, new StringTypeSafeMatcher(expectedPattern));
         }
     }
@@ -125,7 +126,8 @@ public class ContractAssertion {
 
     private String resolve(Object json) {
         String expectedJson = jsonConverter.serialize(json);
-        expectedJson = expectedJson.replace("{port}", String.valueOf(port));
+        expectedJson = expectedJson.replace("{port}", String.valueOf(port))
+                .replace("{host}", host);
         for (Map.Entry<String, String> entry : variables.entrySet()) {
             expectedJson = expectedJson.replace(format("{%s}", entry.getKey()), entry.getValue());
         }

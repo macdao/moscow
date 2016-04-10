@@ -116,7 +116,8 @@ public class ContractAssertionTest {
 
     @Test
     public void request_text_bar6_should_response_201_and_body() throws Exception {
-        assertContract();
+        final int size = assertContract().size();
+        assertThat(size, is(1));
     }
 
     @Test
