@@ -91,7 +91,7 @@ Moscow uses path matcher to get created resource from `Location` header in RESTf
 
 ```json
 "headers": {
-    "Location": "http://localhost:{port}/bar/{bar-id}"
+    "Location": "http://{host}:{port}/bar/{bar-id}"
 }
 ```
 
@@ -104,7 +104,7 @@ final String barId = new ContractAssertion(contractContainer.findContracts(name.
                 .get("bar-id");
 ```
 
-`{port}` is special as it will be replaced by real port before assertion.
+`{host}` and `{port}` is special as it will be replaced by real host and port before assertion. Both of them can be used in response json body.
 
 Moscow also support the ID appear in the contract response body:
 
