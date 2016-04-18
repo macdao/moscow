@@ -246,6 +246,7 @@ Moscow use a subset of Moco contracts:
  - status
  - headers
  - json
+ - file
 
 ## Not Supported Moco Features
 
@@ -256,10 +257,10 @@ Because we need to build requests from Moco contracts, some matchers such as `xp
  - cookies
  - forms
  - text.xml
- - file.xml
- - xpaths
  - text.json
+ - file.xml
  - file.json
+ - xpaths
  - json_paths
  - uri.match
  - uri.startsWith
@@ -267,7 +268,6 @@ Because we need to build requests from Moco contracts, some matchers such as `xp
  - uri.contain
  - exist
 - response
- - file
  - path_resource
  - version
  - proxy
