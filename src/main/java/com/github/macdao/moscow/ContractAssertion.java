@@ -17,17 +17,20 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -93,13 +96,14 @@ public class ContractAssertion {
         logger.info("Headers: {}", responseEntity.getHeaders());
         logger.info("Body: {}", responseEntity.getBody());
 
-        assertContract(responseEntity, contract.getResponse());
+        assertContract(responseEntity, contract);
     }
 
-    private void assertContract(RestResponse responseEntity, ContractResponse contractResponse) {
+    private void assertContract(RestResponse responseEntity, Contract contract) {
+        final ContractResponse contractResponse = contract.getResponse();
         assertStatusCode(responseEntity, contractResponse);
         assertHeaders(responseEntity, contractResponse);
-        assertBody(responseEntity, contractResponse);
+        assertBody(responseEntity, contract);
     }
 
     private void assertStatusCode(RestResponse responseEntity, ContractResponse contractResponse) {
@@ -115,17 +119,38 @@ public class ContractAssertion {
         }
     }
 
-    private void assertBody(RestResponse responseEntity, ContractResponse contractResponse) {
+    private void assertBody(RestResponse responseEntity, Contract contract) {
+        final ContractResponse contractResponse = contract.getResponse();
         final String actualBody = responseEntity.getBody();
+
         if (contractResponse.getText() != null) {
             assertThat(actualBody, is(contractResponse.getText()));
         } else if (contractResponse.getJson() != null) {
-            assertJson(resolve(contractResponse.getJson()), actualBody);
+            assertJson(jsonConverter.serialize(contractResponse.getJson()), actualBody);
+        } else if (contractResponse.getFile() != null) {
+            final String file = contractResponse.getFile();
+            final String expectedBody = new String(readAllBytes(contract.getBase().resolve(file)), UTF_8);
+            if (file.endsWith(".json")) {
+                assertJson(expectedBody, actualBody);
+            } else {
+                assertThat(actualBody, is(expectedBody));
+            }
         }
     }
 
-    private String resolve(Object json) {
-        String expectedJson = jsonConverter.serialize(json);
+    private void assertJson(String json, String actualBody) {
+        assertJsonEquals(resolve(json), actualBody);
+    }
+
+    private byte[] readAllBytes(Path path) {
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String resolve(String expectedJson) {
         expectedJson = expectedJson.replace("{port}", String.valueOf(port))
                 .replace("{host}", host);
         for (Map.Entry<String, String> entry : variables.entrySet()) {
@@ -134,7 +159,7 @@ public class ContractAssertion {
         return expectedJson;
     }
 
-    private void assertJson(String expectedStr, String actualStr) {
+    private void assertJsonEquals(String expectedStr, String actualStr) {
         final JSONCompareMode mode = necessity ? JSONCompareMode.STRICT_ORDER : JSONCompareMode.STRICT;
 
         try {
@@ -202,7 +227,7 @@ public class ContractAssertion {
 
     private String encode(String value) {
         try {
-            return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
+            return URLEncoder.encode(value, UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

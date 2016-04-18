@@ -140,6 +140,16 @@ public class ContractAssertionTest {
         assertContract();
     }
 
+    @Test
+    public void can_support_response_json_file() throws Exception {
+        assertContract();
+    }
+
+    @Test
+    public void can_support_response_text_file() throws Exception {
+        assertContract();
+    }
+
     private Map<String, String> assertContract() {
         return new ContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)

@@ -10,5 +10,8 @@
   },
   {
     "include": "中文.json"
+  },
+  {
+    "include": "file.json"
   }
 ]

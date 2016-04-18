@@ -1,0 +1,25 @@
+[
+  {
+    "description": "can_support_response_json_file",
+    "request": {
+      "method": "GET",
+      "uri": "/file/1"
+    },
+    "response": {
+      "headers": {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      "file": "index.json"
+    }
+  },
+  {
+    "description": "can_support_response_text_file",
+    "request": {
+      "method": "GET",
+      "uri": "/file/2"
+    },
+    "response": {
+      "file": "foo.request"
+    }
+  }
+]

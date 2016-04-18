@@ -8,6 +8,7 @@ public class ContractResponse {
     private String text;
     private Map<String, String> headers = new HashMap<>();
     private Object json;
+    private String file;
 
     public int getStatus() {
         return status;
@@ -39,5 +40,13 @@ public class ContractResponse {
 
     public void setJson(Object json) {
         this.json = json;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 }
