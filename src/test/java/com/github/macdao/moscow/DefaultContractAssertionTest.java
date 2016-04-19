@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
-public class ContractAssertionTest {
+public class DefaultContractAssertionTest {
     private static final ContractContainer contractContainer = new ContractContainer(Paths.get("src/test/resources/contracts"));
 
     @Parameterized.Parameters
@@ -91,7 +91,7 @@ public class ContractAssertionTest {
 
     @Test
     public void request_text_bar3_should_response_json() throws Exception {
-        new ContractAssertion(contractContainer.findContracts(methodName()))
+        new DefaultContractAssertion(contractContainer.findContracts(methodName()))
                 .setScheme("http")
                 .setHost("127.0.0.1")
                 .setPort(12306)
@@ -100,7 +100,7 @@ public class ContractAssertionTest {
 
     @Test
     public void request_text_bar4_should_response_foo() throws Exception {
-        new ContractAssertion(contractContainer.findContracts(methodName()))
+        new DefaultContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
                 .setNecessity(true)
                 .assertContract();
@@ -108,7 +108,7 @@ public class ContractAssertionTest {
 
     @Test(expected = ExecutionTimeoutException.class)
     public void request_text_bar5_should_response_timeout() throws Exception {
-        new ContractAssertion(contractContainer.findContracts(methodName()))
+        new DefaultContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
                 .setExecutionTimeout(100)
                 .assertContract();
@@ -151,7 +151,7 @@ public class ContractAssertionTest {
     }
 
     private Map<String, String> assertContract() {
-        return new ContractAssertion(contractContainer.findContracts(methodName()))
+        return new DefaultContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
                 .setRestExecutor(restExecutor)
                 .assertContract();

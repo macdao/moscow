@@ -34,7 +34,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ContractAssertion {
+public class DefaultContractAssertion extends AbstractContractAssertion{
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Contract> contracts;
     private final Map<String, String> variables = new HashMap<>();
@@ -47,37 +47,37 @@ public class ContractAssertion {
     private boolean necessity = false;
     private int executionTimeout = 0;
 
-    public ContractAssertion(List<Contract> contracts) {
+    public DefaultContractAssertion(List<Contract> contracts) {
         Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
         this.contracts = contracts;
     }
 
-    public ContractAssertion setRestExecutor(RestExecutor restExecutor) {
+    public DefaultContractAssertion setRestExecutor(RestExecutor restExecutor) {
         this.restExecutor = restExecutor;
         return this;
     }
 
-    public ContractAssertion setScheme(String scheme) {
+    public DefaultContractAssertion setScheme(String scheme) {
         this.scheme = scheme;
         return this;
     }
 
-    public ContractAssertion setPort(int port) {
+    public DefaultContractAssertion setPort(int port) {
         this.port = port;
         return this;
     }
 
-    public ContractAssertion setHost(String host) {
+    public DefaultContractAssertion setHost(String host) {
         this.host = host;
         return this;
     }
 
-    public ContractAssertion setNecessity(boolean necessity) {
+    public DefaultContractAssertion setNecessity(boolean necessity) {
         this.necessity = necessity;
         return this;
     }
 
-    public ContractAssertion setExecutionTimeout(int executionTimeout) {
+    public DefaultContractAssertion setExecutionTimeout(int executionTimeout) {
         this.executionTimeout = executionTimeout;
         return this;
     }
@@ -87,6 +87,16 @@ public class ContractAssertion {
             assertContract(contract);
         }
         return variables;
+    }
+
+    public DefaultContractAssertion variable(String key, String value) {
+        this.variables.put(key, value);
+        return this;
+    }
+
+    public DefaultContractAssertion variables(Map<String, String> map) {
+        this.variables.putAll(map);
+        return this;
     }
 
     private void assertContract(Contract contract) {
@@ -99,18 +109,21 @@ public class ContractAssertion {
         assertContract(responseEntity, contract);
     }
 
-    private void assertContract(RestResponse responseEntity, Contract contract) {
+    @Override
+    public void assertContract(RestResponse responseEntity, Contract contract) {
         final ContractResponse contractResponse = contract.getResponse();
         assertStatusCode(responseEntity, contractResponse);
         assertHeaders(responseEntity, contractResponse);
         assertBody(responseEntity, contract);
     }
 
-    private void assertStatusCode(RestResponse responseEntity, ContractResponse contractResponse) {
+    @Override
+    public void assertStatusCode(RestResponse responseEntity, ContractResponse contractResponse) {
         assertThat(responseEntity.getStatusCode(), is(contractResponse.getStatus()));
     }
 
-    private void assertHeaders(RestResponse responseEntity, ContractResponse contractResponse) {
+    @Override
+    public void assertHeaders(RestResponse responseEntity, ContractResponse contractResponse) {
         for (Map.Entry<String, String> entry : contractResponse.getHeaders().entrySet()) {
             final String actualHeader = responseEntity.getHeaders().get(entry.getKey());
             final String expectedPattern = entry.getValue().replace("{port}", String.valueOf(port))
@@ -119,7 +132,8 @@ public class ContractAssertion {
         }
     }
 
-    private void assertBody(RestResponse responseEntity, Contract contract) {
+    @Override
+    public void assertBody(RestResponse responseEntity, Contract contract) {
         final ContractResponse contractResponse = contract.getResponse();
         final String actualBody = responseEntity.getBody();
 

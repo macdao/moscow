@@ -3,3 +3,5 @@
 *.iml
 build/
 gradle.properties
+moscow.i*
+out/

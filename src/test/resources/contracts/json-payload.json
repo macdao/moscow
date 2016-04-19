@@ -1,0 +1,20 @@
+[
+  {
+    "description": "should_return_complicated_json_payload",
+    "request": {
+      "method": "GET",
+      "uri": "/payload/1"
+    },
+    "response": {
+      "headers": {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      "json": {
+        "items": ["one", "two", "three"],
+        "_links": {
+          "self": "http://localhost:9999/payload/1"
+        }
+      }
+    }
+  }
+]
