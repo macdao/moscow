@@ -1,6 +1,6 @@
 package com.github.macdao.moscow.spring;
 
-import com.github.macdao.moscow.ContractAssertion;
+import com.github.macdao.moscow.DefaultContractAssertion;
 import com.github.macdao.moscow.ContractContainer;
 import org.junit.Rule;
 import org.junit.rules.TestName;
@@ -28,7 +28,7 @@ public abstract class ApiTestBase {
     }
 
     protected Map<String, String> assertContract(String description) {
-        return new ContractAssertion(container.findContracts(description))
+        return new DefaultContractAssertion(container.findContracts(description))
                 .setPort(port)
                 .setExecutionTimeout(200)
                 .assertContract();

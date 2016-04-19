@@ -302,3 +302,25 @@ Because we need to build requests from Moco contracts, some matchers such as `xp
   ```
   ./gradlew clean build
   ```
+
+## Contribute
+
+To disable the task `signArchives`, execute
+
+```sh
+$ gradle build -x signArchives
+```
+
+and to run all the tests, you should start `moco` server:
+
+```sh
+./startMoco
+```
+
+it will download the moco-standalone, and run the moco server in port `12306`.
+
+If you are using `IntelliJ Idea` as IDE,
+
+```sh
+$ gradle build idea -x signArchives
+```

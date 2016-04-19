@@ -13,5 +13,8 @@
   },
   {
     "include": "file.json"
+  },
+  {
+    "include": "json-payload.json"
   }
 ]
