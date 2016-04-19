@@ -20,7 +20,20 @@ Moco and Moscow already contributed on my projects. Hope Moscow can help you too
 
 ### Installation
 
-You can get Moscow (SNAPSHOT version) by maven or gradle. To import by gradle:
+You can get Moscow by maven or gradle. To import by gradle:
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'com.github.macdao:moscow:0.1.0'
+}
+
+```
+
+SNAPSHOT version:
 
 ```groovy
 repositories {
@@ -40,7 +53,6 @@ If you are using Spring Boot (`spring-boot-starter-web` for more specific) that'
 
 ```groovy
 dependencies {
-    testCompile 'com.github.macdao:moscow:0.1-SNAPSHOT'
     testRuntime 'com.squareup.okhttp3:okhttp:3.1.2'
 }
 ```
