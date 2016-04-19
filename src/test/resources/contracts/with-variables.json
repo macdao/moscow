@@ -1,0 +1,24 @@
+[
+  {
+    "description": "should_return_replaced_contract",
+    "request": {
+      "method": "GET",
+      "uri": "/variables/1"
+    },
+    "response": {
+      "headers": {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      "json": {
+        "items": ["one", "two", "three"],
+        "author": {
+          "name": "{name}",
+          "email": "{email}"
+        },
+        "_links": {
+          "self": "http://localhost:9999/payload/1"
+        }
+      }
+    }
+  }
+]

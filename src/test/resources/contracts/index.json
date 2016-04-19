@@ -16,5 +16,8 @@
   },
   {
     "include": "json-payload.json"
+  },
+  {
+    "include": "with-variables.json"
   }
 ]

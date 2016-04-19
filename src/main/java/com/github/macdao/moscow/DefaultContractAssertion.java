@@ -89,6 +89,16 @@ public class DefaultContractAssertion extends AbstractContractAssertion{
         return variables;
     }
 
+    public DefaultContractAssertion variable(String key, String value) {
+        this.variables.put(key, value);
+        return this;
+    }
+
+    public DefaultContractAssertion variables(Map<String, String> map) {
+        this.variables.putAll(map);
+        return this;
+    }
+
     private void assertContract(Contract contract) {
         final RestResponse responseEntity = execute(contract);
 

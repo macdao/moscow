@@ -126,6 +126,99 @@ Moscow also support the ID appear in the contract response body:
 }
 ```
 
+### Variable
+
+There are 2 handy method `variable` and `variables` to define variable for you contract during the runtime. For example:
+
+```java
+@Test
+public void should_return_replaced_contract() throws Exception {
+    new DefaultContractAssertion(contractContainer.findContracts(name.getMethodName()))
+            .setPort(12306)
+            .variable("host", "localhost")
+            .variable("name", "juntao")
+            .variable("email", "juntao.qiu@gmail.com")
+            .setRestExecutor(new RestTemplateExecutor())
+            .assertContract();
+}
+```
+
+And your contract looks like this:
+
+```json
+"response": {
+  "json": {
+    "author": {
+      "name": "{name}",
+      "email": "{email}"
+    },
+    "_links": {
+      "self": "http://{host}:{port}/payload/1"
+    }
+  }
+}
+```
+
+Before `moscow` actual do the comparation, it will replace all the variables, and then compare it with the real payload returned
+  from the `API`.
+
+Of course you can use `variables` to add all variables at once:
+
+```java
+@Test
+public void should_return_replaced_contract2() throws Exception {
+    Map<String, String> context = new HashMap<>();
+
+    context.put("name", "juntao");
+    context.put("host", "localhost");
+    context.put("port", "12306");
+    context.put("email", "juntao.qiu@gmail.com");
+
+    new DefaultContractAssertion(contractContainer.findContracts(name.getMethodName()))
+            .variables(context)
+            .setRestExecutor(new RestTemplateExecutor())
+            .assertContract();
+}
+```
+
+### Customize the ContractAssertion
+
+```java
+public class MyContractAssertion extends DefaultContractAssertion {
+
+    public MyContractAssertion(List<Contract> contracts) {
+        super(contracts);
+    }
+
+    @Override
+    public void assertBody(RestResponse responseEntity, Contract contract) {
+        String body = responseEntity.getBody();
+
+        ContractResponse contractResponse = contract.getResponse();
+        JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
+
+        List<String> items = JsonPath.read(body, "$.items");
+        assert jsonConverter != null;
+
+        String serializedContract = jsonConverter.serialize(contractResponse.getJson());
+        List<String> items2 = JsonPath.read(serializedContract, "$.items");
+
+        assertThat(items, is(items2));
+    }
+}
+```
+
+You can actually override all of those method:
+ 
+```java
+public abstract class AbstractContractAssertion {
+    public abstract void assertContract(RestResponse responseEntity, Contract contract);
+    public abstract void assertStatusCode(RestResponse responseEntity, ContractResponse contractResponse);
+    public abstract void assertHeaders(RestResponse responseEntity, ContractResponse contractResponse);
+    public abstract void assertBody(RestResponse responseEntity, Contract contract);
+}
+```
+
 ### Necessity Mode
 
 Not all the response body is necessary. For example, Spring returns the followings for 401 response:
