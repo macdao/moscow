@@ -8,6 +8,8 @@ import com.github.macdao.moscow.json.JsonConverterFactory;
 import com.github.macdao.moscow.model.Contract;
 import com.github.macdao.moscow.model.ContractRequest;
 import com.github.macdao.moscow.model.ContractResponse;
+import com.github.macdao.moscow.property.PropertyProvider;
+import com.github.macdao.moscow.util.PlaceholderUtils;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.hamcrest.Description;
@@ -46,6 +48,7 @@ public class ContractAssertion {
     private int port = 8080;
     private boolean necessity = false;
     private int executionTimeout = 0;
+    private PropertyProvider propertyProvider;
 
     public ContractAssertion(List<Contract> contracts) {
         Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
@@ -79,6 +82,11 @@ public class ContractAssertion {
 
     public ContractAssertion setExecutionTimeout(int executionTimeout) {
         this.executionTimeout = executionTimeout;
+        return this;
+    }
+
+    public ContractAssertion withPropertyProvider(PropertyProvider propertyProvider) {
+        this.propertyProvider = propertyProvider;
         return this;
     }
 
@@ -151,12 +159,21 @@ public class ContractAssertion {
     }
 
     private String resolve(String expectedJson) {
-        expectedJson = expectedJson.replace("{port}", String.valueOf(port))
+        String result = expectedJson.replace("{port}", String.valueOf(port))
                 .replace("{host}", host);
+
         for (Map.Entry<String, String> entry : variables.entrySet()) {
-            expectedJson = expectedJson.replace(format("{%s}", entry.getKey()), entry.getValue());
+            result = result.replace(format("{%s}", entry.getKey()), entry.getValue());
         }
-        return expectedJson;
+
+        for (String key : PlaceholderUtils.parse(result)) {
+            final String value = propertyProvider.getProperty(key);
+            if (value != null) {
+                result = result.replace(format("${%s}", key), value);
+            }
+        }
+
+        return result;
     }
 
     private void assertJsonEquals(String expectedStr, String actualStr) {

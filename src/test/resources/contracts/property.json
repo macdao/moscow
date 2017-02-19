@@ -1,0 +1,28 @@
+[
+  {
+    "description": "# get_property_should_response_property",
+    "request": {
+      "method": "GET",
+      "uri": "/property"
+    },
+    "response": {
+      "status": 200,
+      "json": {
+        "name": "0"
+      }
+    }
+  },
+  {
+    "description": "get_property_should_response_property",
+    "request": {
+      "method": "GET",
+      "uri": "/property"
+    },
+    "response": {
+      "status": 200,
+      "json": {
+        "name": "${server.port}"
+      }
+    }
+  }
+]

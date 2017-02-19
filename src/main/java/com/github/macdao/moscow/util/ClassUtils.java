@@ -1,6 +1,9 @@
 package com.github.macdao.moscow.util;
 
 public class ClassUtils {
+    private ClassUtils() {
+    }
+
     public static boolean isPresent(String className) {
         try {
             Class.forName(className);

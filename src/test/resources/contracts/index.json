@@ -1,5 +1,8 @@
 [
   {
+    "include": "property.json"
+  },
+  {
     "include": "default.json"
   },
   {
