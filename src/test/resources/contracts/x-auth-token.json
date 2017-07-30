@@ -1,0 +1,14 @@
+[
+  {
+    "description": "get_return_x_auth_token",
+    "request": {
+      "uri": "/x-auth-token"
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "x-auth-token": "{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}"
+      }
+    }
+  }
+]

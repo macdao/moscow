@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class AntPathStringMatcher {
 
-    private static final Pattern GLOB_PATTERN = Pattern.compile("\\{([a-z\\-]+)\\}");
+    private static final Pattern GLOB_PATTERN = Pattern.compile("\\{(.*)\\}");
 
     private static final String DEFAULT_VARIABLE_PATTERN = "(.*)";
 

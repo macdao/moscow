@@ -1,5 +1,8 @@
 [
   {
+    "include": "x-auth-token.json"
+  },
+  {
     "include": "property.json"
   },
   {
