@@ -3,6 +3,8 @@ package com.github.macdao.moscow;
 import com.github.macdao.moscow.http.OkHttpClientExecutor;
 import com.github.macdao.moscow.http.RestExecutor;
 import com.github.macdao.moscow.http.RestTemplateExecutor;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -152,13 +154,25 @@ public class ContractAssertionTest {
 
     @Test
     public void get_return_x_auth_token() throws Exception {
-        String token = new ContractAssertion(contractContainer.findContracts(methodName()))
+        final Map<String, String> map = new ContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
                 .setRestExecutor(restExecutor)
-                .withGlobPattern("\\{(.*)\\}")
-                .assertContract()
-                .get("\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]");
+                .withGlobPattern("(\\{.*\\})")
+                .assertContract();
+        String token = map.get("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}");
         assertThat(token, is("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}"));
+
+        final String value = getString(map, "\\{.*\\}");
+        assertThat(value, is("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}"));
+    }
+
+    private String getString(Map<String, String> map, final String regex) {
+        return Iterables.find(map.keySet(), new Predicate<String>() {
+            @Override
+            public boolean apply(String input) {
+                return input.matches(regex);
+            }
+        });
     }
 
     private Map<String, String> assertContract() {
