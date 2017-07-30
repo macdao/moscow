@@ -168,8 +168,11 @@ public class ContractAssertion {
         String result = expectedJson.replace("{port}", String.valueOf(port))
                 .replace("{host}", host);
 
+        final String format = globPattern.replaceAll("\\(.*\\)", "%s")
+                .replaceAll("\\\\(.)", "$1");
+
         for (Map.Entry<String, String> entry : variables.entrySet()) {
-            result = result.replace(format("{%s}", entry.getKey()), entry.getValue());
+            result = result.replace(format(format, entry.getKey()), entry.getValue());
         }
 
         for (String key : PlaceholderUtils.parse(result)) {

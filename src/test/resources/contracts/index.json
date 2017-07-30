@@ -1,5 +1,8 @@
 [
   {
+    "include": "tokens.json"
+  },
+  {
     "include": "x-auth-token.json"
   },
   {

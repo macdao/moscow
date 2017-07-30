@@ -154,19 +154,20 @@ public class ContractAssertionTest {
 
     @Test
     public void get_return_x_auth_token() throws Exception {
-        final Map<String, String> map = new ContractAssertion(contractContainer.findContracts(methodName()))
-                .setPort(12306)
-                .setRestExecutor(restExecutor)
-                .withGlobPattern("(\\{.*\\})")
-                .assertContract();
-        String token = map.get("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}");
+        String token = assertContractWithGlobPattern("(\\{.*\\})")
+                .get("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}");
         assertThat(token, is("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}"));
 
-        final String value = getString(map, "\\{.*\\}");
+        final String value = getByRegex(assertContractWithGlobPattern("(\\{.*\\})"), "\\{.*\\}");
         assertThat(value, is("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}"));
     }
 
-    private String getString(Map<String, String> map, final String regex) {
+    @Test
+    public void can_create_token() throws Exception {
+        assertContractWithGlobPattern("([a-z]*\\-[a-z]*\\-[a-z]*)");
+    }
+
+    private String getByRegex(Map<String, String> map, final String regex) {
         return Iterables.find(map.keySet(), new Predicate<String>() {
             @Override
             public boolean apply(String input) {
@@ -179,6 +180,14 @@ public class ContractAssertionTest {
         return new ContractAssertion(contractContainer.findContracts(methodName()))
                 .setPort(12306)
                 .setRestExecutor(restExecutor)
+                .assertContract();
+    }
+
+    private Map<String, String> assertContractWithGlobPattern(String globPattern) {
+        return new ContractAssertion(contractContainer.findContracts(methodName()))
+                .setPort(12306)
+                .setRestExecutor(restExecutor)
+                .withGlobPattern(globPattern)
                 .assertContract();
     }
 
