@@ -11,17 +11,15 @@ import java.util.regex.Pattern;
  */
 public class AntPathStringMatcher {
 
-    private static final Pattern GLOB_PATTERN = Pattern.compile("\\{(.*)\\}");
-
     private static final String DEFAULT_VARIABLE_PATTERN = "(.*)";
 
     private final Pattern pattern;
 
     private final List<String> variableNames = new LinkedList<>();
 
-    public AntPathStringMatcher(String pattern) {
+    public AntPathStringMatcher(String pattern, String globPattern) {
         final StringBuilder patternBuilder = new StringBuilder();
-        final Matcher matcher = GLOB_PATTERN.matcher(pattern);
+        final Matcher matcher = Pattern.compile(globPattern).matcher(pattern);
         int end = 0;
         while (matcher.find()) {
             patternBuilder.append(quote(pattern, end, matcher.start()));

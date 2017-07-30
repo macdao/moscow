@@ -12,7 +12,7 @@ public class AntPathStringMatcherTest {
     @Test
     public void test_match() throws Exception {
         final Map<String, String> map = new HashMap<>();
-        assertThat(new AntPathStringMatcher("a{name}b").matchStrings("ahellob", map), is(true));
+        assertThat(new AntPathStringMatcher("a{name}b", "\\{(.*)\\}").matchStrings("ahellob", map), is(true));
         assertThat(map.size(), is(1));
         assertThat(map.get("name"), is("hello"));
     }
@@ -20,7 +20,7 @@ public class AntPathStringMatcherTest {
     @Test
     public void test_match_2() throws Exception {
         final Map<String, String> map = new HashMap<>();
-        assertThat(new AntPathStringMatcher("a{name:}}b").matchStrings("ahellob", map), is(true));
+        assertThat(new AntPathStringMatcher("a{name:}}b", "\\{(.*)\\}").matchStrings("ahellob", map), is(true));
         assertThat(map.size(), is(1));
         assertThat(map.get("name:}"), is("hello"));
     }

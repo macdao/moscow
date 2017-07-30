@@ -152,7 +152,12 @@ public class ContractAssertionTest {
 
     @Test
     public void get_return_x_auth_token() throws Exception {
-        final String token = assertContract().get("\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]");
+        String token = new ContractAssertion(contractContainer.findContracts(methodName()))
+                .setPort(12306)
+                .setRestExecutor(restExecutor)
+                .withGlobPattern("\\{(.*)\\}")
+                .assertContract()
+                .get("\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]");
         assertThat(token, is("{\"name\":\"jack\",\"authorities\":[{\"authority\":\"ROLE_USER\"}]}"));
     }
 

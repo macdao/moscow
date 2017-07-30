@@ -49,6 +49,7 @@ public class ContractAssertion {
     private boolean necessity = false;
     private int executionTimeout = 0;
     private PropertyProvider propertyProvider;
+    private String globPattern = "\\{([a-z\\-]+)\\}";
 
     public ContractAssertion(List<Contract> contracts) {
         Preconditions.checkArgument(!contracts.isEmpty(), "Given contract list is empty!");
@@ -87,6 +88,11 @@ public class ContractAssertion {
 
     public ContractAssertion withPropertyProvider(PropertyProvider propertyProvider) {
         this.propertyProvider = propertyProvider;
+        return this;
+    }
+
+    public ContractAssertion withGlobPattern(String globPattern) {
+        this.globPattern = globPattern;
         return this;
     }
 
@@ -265,7 +271,7 @@ public class ContractAssertion {
 
         @Override
         protected boolean matchesSafely(String str) {
-            return new AntPathStringMatcher(pattern).matchStrings(str, variables);
+            return new AntPathStringMatcher(pattern, globPattern).matchStrings(str, variables);
         }
     }
 }
