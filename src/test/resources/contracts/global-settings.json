@@ -1,5 +1,12 @@
 [
   {
     "include": "default.json"
+  },
+  {
+    "include": "property.json"
+  },
+  {
+    "context": "/foo",
+    "include": "foo.json"
   }
 ]

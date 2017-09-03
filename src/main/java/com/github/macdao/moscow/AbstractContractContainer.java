@@ -13,11 +13,12 @@ abstract class AbstractContractContainer {
     private final JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
     private final ListMultimap<String, Contract> contractMap = ArrayListMultimap.create();
 
-    void loadContractsFromFile(Path base, Path file) {
+    List<Contract> loadContractsFromFile(Path base, Path file) {
         final List<Contract> contracts = fromFile(base, file);
         for (Contract contract : contracts) {
             contractMap.put(contract.getDescription(), contract);
         }
+        return contracts;
     }
 
     private List<Contract> fromFile(Path base, Path file) {

@@ -24,4 +24,15 @@ public class GlobalSettingsContainerTest {
         assertThat(contract.getDescription()).isEqualTo(contractName);
         assertThat(contract.getResponse().getText()).isEqualTo("foo");
     }
+
+    @Test
+    public void should_support_context() throws Exception {
+        final List<Contract> contracts = contractContainer.findContracts("request_param_should_response_text_bar4");
+        assertThat(contracts).hasSize(1);
+        assertThat(contracts.get(0).getRequest().getUri()).isEqualTo("/foo/foo");
+
+        final List<Contract> contracts2 = contractContainer.findContracts("get_property_should_response_property");
+        assertThat(contracts2).hasSize(1);
+        assertThat(contracts2.get(0).getRequest().getUri()).isEqualTo("/property");
+    }
 }
