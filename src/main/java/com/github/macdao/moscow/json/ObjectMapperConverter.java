@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.macdao.moscow.model.Contract;
+import com.github.macdao.moscow.model.GlobalSetting;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +26,20 @@ public class ObjectMapperConverter implements JsonConverter {
 
     @Override
     public List<Contract> deserializeContracts(Path file) {
+        return deserialize(file, new TypeReference<List<Contract>>() {
+        });
+    }
+
+    @Override
+    public List<GlobalSetting> deserializeGlobalSettings(Path file) {
+        return deserialize(file, new TypeReference<List<GlobalSetting>>() {
+        });
+    }
+
+    private <T> T deserialize(Path file, TypeReference valueTypeRef) {
         final File src = file.toFile();
         try {
-            return objectMapper.readValue(src, new TypeReference<List<Contract>>() {
-            });
+            return objectMapper.readValue(src, valueTypeRef);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
