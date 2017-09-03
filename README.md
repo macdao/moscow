@@ -44,12 +44,12 @@ repositories {
 }
 
 dependencies {
-    testCompile 'com.github.macdao:moscow:0.1-SNAPSHOT'
+    testCompile 'com.github.macdao:moscow:0.3-SNAPSHOT'
 }
 
 ```
 
-If you are using Spring Boot (`spring-boot-starter-web` for more specific) that's all. But if you aren't using Spring Boot and don't want to depend on it, that's OK, Moscow can run without Spring Framework. The only thing you have to do is adding the OkHttp:
+If you are using Spring Boot 1.3.x (`spring-boot-starter-web` for more specific) that's all. But if you aren't using Spring Boot and don't want to depend on it, that's OK, Moscow can run without Spring Framework. The only thing you have to do is adding the OkHttp:
 
 ```groovy
 dependencies {
@@ -96,6 +96,17 @@ dependencies {
   The method `ContractContainer.findContracts` will return a contract list, which means you can assert multiple contracts with same description meanwhile.
 
   `assertContract` will build request from contract, send it to server and compare the response with contract. It will compare existed status code, headers and body. Moscow only considers headers present in contracts and ignore the rest.
+
+### Global Settings
+
+If you are using [Global Settings](https://github.com/dreamhead/moco/blob/master/moco-doc/global-settings.md) to load multiple configuration files, you can use `GlobalSettingsContainer` instead of `ContractContainer`:
+
+```java
+private static final GlobalSettingsContainer contractContainer = new GlobalSettingsContainer(
+       Paths.get("src/test/resources/contracts"),
+       Paths.get("global-settings.json")
+);
+```
 
 ### Path Matcher
 
@@ -259,6 +270,9 @@ Moscow use a subset of Moco contracts:
  - headers
  - json
  - file
+- global settings
+ - context
+ - file_root
 
 ## Not Supported Moco Features
 
@@ -288,6 +302,10 @@ Because we need to build requests from Moco contracts, some matchers such as `xp
  - latency
 - redirectTo
 - mount
+- global settings
+ - env
+ - request
+ - response
 
 ## Build
 
