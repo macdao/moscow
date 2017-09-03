@@ -14,7 +14,7 @@ public class ObjectMapperConverterTest {
         final ObjectMapperConverter objectMapperConverter = new ObjectMapperConverter();
         final List<GlobalSetting> globalSettings = objectMapperConverter.deserializeGlobalSettings(Paths.get("src/test/resources/contracts/global-settings.json"));
 
-        assertThat(globalSettings).hasSize(1);
+        assertThat(globalSettings).hasSize(4);
         final GlobalSetting globalSetting = globalSettings.get(0);
         assertThat(globalSetting.getInclude()).isEqualTo("default.json");
     }

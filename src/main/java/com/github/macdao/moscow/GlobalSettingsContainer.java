@@ -14,9 +14,17 @@ public class GlobalSettingsContainer extends AbstractContractContainer {
     public GlobalSettingsContainer(Path base, Path file) {
         final List<GlobalSetting> globalSettings = jsonConverter.deserializeGlobalSettings(base.resolve(file));
         for (GlobalSetting globalSetting : globalSettings) {
-            final List<Contract> contracts = loadContractsFromFile(base, base.resolve(globalSetting.getInclude()));
+            final Path contractBase = contractBase(base, globalSetting);
+            final List<Contract> contracts = loadContractsFromFile(contractBase, contractBase.resolve(globalSetting.getInclude()));
             addContext(globalSetting, contracts);
         }
+    }
+
+    private Path contractBase(Path base, GlobalSetting globalSetting) {
+        if (globalSetting.getFileRoot() != null) {
+            return base.resolve(globalSetting.getFileRoot());
+        }
+        return base;
     }
 
     private void addContext(GlobalSetting globalSetting, List<Contract> contracts) {

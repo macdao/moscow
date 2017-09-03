@@ -35,4 +35,15 @@ public class GlobalSettingsContainerTest {
         assertThat(contracts2).hasSize(1);
         assertThat(contracts2.get(0).getRequest().getUri()).isEqualTo("/property");
     }
+
+    @Test
+    public void should_support_file_root() throws Exception {
+        final List<Contract> contracts = contractContainer.findContracts("file_root");
+        assertThat(contracts).hasSize(1);
+        assertThat(contracts.get(0).getBase()).isEqualTo(Paths.get("src/test/resources/contracts/file-root"));
+
+        final List<Contract> contracts2 = contractContainer.findContracts("get_property_should_response_property");
+        assertThat(contracts2).hasSize(1);
+        assertThat(contracts2.get(0).getBase()).isEqualTo(Paths.get("src/test/resources/contracts"));
+    }
 }

@@ -8,5 +8,9 @@
   {
     "context": "/foo",
     "include": "foo.json"
+  },
+  {
+    "file_root": "file-root",
+    "include": "file-root.json"
   }
 ]
