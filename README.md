@@ -98,6 +98,7 @@ dependencies {
   `assertContract` will build request from contract, send it to server and compare the response with contract. It will compare existed status code, headers and body. Moscow only considers headers present in contracts and ignore the rest.
 
 ### Global Settings
+**@Since 0.3**
 
 If you are using [Global Settings](https://github.com/dreamhead/moco/blob/master/moco-doc/global-settings.md) to load multiple configuration files, you can use `GlobalSettingsContainer` instead of `ContractContainer`:
 
@@ -135,6 +136,31 @@ Moscow also support the ID appear in the contract response body:
 "json": {
     "id": "{bar-id}"
 }
+```
+
+### Glob Pattern
+**@Since 0.3**
+
+Other than `{bar-id}`, you can use any pattern:
+
+```json
+[
+  {
+    "response": {
+      "status": 201,
+      "headers": {
+        "Location": "http://{host}:{port}/bar/user-id"
+      }
+    }
+  }
+]
+```
+
+```java
+new ContractAssertion(contractList)
+        .withGlobPattern("(user-id)")
+        .assertContract()
+        .get("user-id");
 ```
 
 ### Necessity Mode
