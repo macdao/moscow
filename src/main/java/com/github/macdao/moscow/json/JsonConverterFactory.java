@@ -7,6 +7,6 @@ public class JsonConverterFactory {
         if (ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper")) {
             return new ObjectMapperConverter();
         }
-        return null;
+        throw new IllegalStateException("Require com.fasterxml.jackson.databind.ObjectMapper");
     }
 }

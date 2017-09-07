@@ -13,6 +13,6 @@ public class RestExecutorFactory {
             return new OkHttpClientExecutor();
         }
 
-        return null;
+        throw new IllegalStateException("Require org.springframework.boot.test.TestRestTemplate or okhttp3.OkHttpClient");
     }
 }
