@@ -49,7 +49,7 @@ dependencies {
 
 ```
 
-If you are using Spring Boot 1.3.x (`spring-boot-starter-web` for more specific) that's all. But if you aren't using Spring Boot and don't want to depend on it, that's OK, Moscow can run without Spring Framework. The only thing you have to do is adding the OkHttp:
+If you are using Spring Boot 1.3.x (`spring-boot-starter-web` for more specific) that's all. But if you are using Spring Boot 1.5.x or without Spring Boot, Moscow can also work. The only thing you need to do is adding the OkHttp:
 
 ```groovy
 dependencies {
@@ -283,55 +283,55 @@ public void setUp() throws Exception {
 Moscow use a subset of Moco contracts:
 
 - request
- - text (with method)
- - file (with method)
- - uri
- - queries
- - method (upper case)
- - headers
- - json (with method)
+  - text (with method)
+  - file (with method)
+  - uri
+  - queries
+  - method (upper case)
+  - headers
+  - json (with method)
 - response
- - text
- - status
- - headers
- - json
- - file
+  - text
+  - status
+  - headers
+  - json
+  - file
 - global settings
- - context
- - file_root
+  - context
+  - file_root
 
 ## Not Supported Moco Features
 
 Because we need to build requests from Moco contracts, some matchers such as `xpaths` and `json_paths` is not supported.
 
 - request
- - version
- - cookies
- - forms
- - text.xml
- - text.json
- - file.xml
- - file.json
- - xpaths
- - json_paths
- - uri.match
- - uri.startsWith
- - uri.endsWith
- - uri.contain
- - exist
+  - version
+  - cookies
+  - forms
+  - text.xml
+  - text.json
+  - file.xml
+  - file.json
+  - xpaths
+  - json_paths
+  - uri.match
+  - uri.startsWith
+  - uri.endsWith
+  - uri.contain
+  - exist
 - response
- - path_resource
- - version
- - proxy
- - cookies
- - attachment
- - latency
+  - path_resource
+  - version
+  - proxy
+  - cookies
+  - attachment
+  - latency
 - redirectTo
 - mount
 - global settings
- - env
- - request
- - response
+  - env
+  - request
+  - response
 
 ## Build
 
