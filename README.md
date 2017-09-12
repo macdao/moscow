@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    testCompile 'com.github.macdao:moscow:0.1.0'
+    testCompile 'com.github.macdao:moscow:0.3.0'
 }
 
 ```
