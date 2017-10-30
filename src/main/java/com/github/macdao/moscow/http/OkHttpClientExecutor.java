@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OkHttpClientExecutor implements RestExecutor {
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = OkHttpClientFactory.getOkHttpClient();
     private final JsonConverter jsonConverter = JsonConverterFactory.getJsonConverter();
 
     @Override
